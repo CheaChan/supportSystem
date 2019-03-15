@@ -10,10 +10,19 @@ class SystemType extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->model('user_model', 'm');
     }
-	public function index()
-	{
-		$this->load->view('system');
+    // ************
+    // * System
+    // ************
+
+    // auto load view
+	public function index(){
+        if(isset($this->session->userdata['logged_in'])){
+            $this->load->view('system');
+        }else{
+            $this->load->view('login_form');
+        }
     }
+    // get the system list
     public function getSystemList(){
         $result = $this->m->getSystemList();
 		echo json_encode($result);
@@ -43,6 +52,7 @@ class SystemType extends CI_Controller {
 		}
 		echo json_encode($msg);
     }
+    // udate the system
     public function updateSystem(){
         $result = $this->m->updateSystem();
 		$msg['success'] = false;

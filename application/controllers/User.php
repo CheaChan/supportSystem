@@ -10,14 +10,20 @@ class User extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->model('user_model', 'm');
     }
+    // ***************
+    // * *  User   * *
+    // ***************
+
+    // auto load view
 	public function index()
 	{
         if(isset($this->session->userdata['logged_in'])){
-            $this->load->view('customer');
+            $this->load->view('user');
         }else{
             $this->load->view('login_form');
         }
     }
+    // login proccess
     public function login(){
         $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
@@ -34,7 +40,7 @@ class User extends CI_Controller {
                         'u_name' => $userData->u_name
                     );
                     $this->session->set_userdata('logged_in',$session_data);
-                    redirect('user/customerList');
+                    redirect('customer');
                 }
             
         } else {
@@ -44,13 +50,7 @@ class User extends CI_Controller {
             $this->load->view('login_form', $data);
         }
     }
-    public function customerList(){
-        if(isset($this->session->userdata['logged_in'])){
-            $this->load->view('customer');
-        }else{
-            $this->load->view('login_form');
-        }
-    }   
+    // logout from the system
     public function logout(){
         // Removing session data
         $sess_array = array(
@@ -58,78 +58,17 @@ class User extends CI_Controller {
             'u_name'=> ''
             );
         $this->session->unset_userdata('logged_in', $sess_array);
-        // $this->session->unset_userdata('u_id');
-        // $this->session->unset_userdata('u_name');
         $this->index();
     }
-    public function getCustomerList(){
-        $result = $this->m->getCustomerList();
-		echo json_encode($result);
-    }
-    public function getSystemType(){
-        $result = $this->m->getSystemType();
-		echo json_encode($result);
-    }
-    public function getServiceHost(){
-        $result = $this->m->getServiceHost();
-		echo json_encode($result);
-    }
-    public function getServiceMain(){
-        $result = $this->m->getServiceMain();
-		echo json_encode($result);
-    }
-    public function calExpDate(){
-        $result = $this->m->calExpDate();
-		echo json_encode($result);
-    }
-    public function addCusomter(){
-        $result = $this->m->addCusomter();
-		$msg['success'] = false;
-		$msg['type'] = 'add';
-		if($result){
-			$msg['success'] = true;
-		}
-		echo json_encode($msg);
-    }
-    public function editCustomer(){
-        $result = $this->m->editCustomer();
-		echo json_encode($result);
-    }
-    public function updateCustomer(){
-        $result = $this->m->updateCustomer();
-		$msg['success'] = false;
-		$msg['type'] = 'update';
-		if($result){
-			$msg['success'] = true;
-		}
-		echo json_encode($msg);
-    }
-    public function deleteCustomer(){
-        $result = $this->m->deleteCustomer();
-		$msg['success'] = false;
-		if($result)
-		{
-			$msg['success'] = true;
-		}
-		echo json_encode($msg);
-    }
-    public function viewCustomer(){
-        $result = $this->m->viewCustomer();
-		echo json_encode($result);
-    }
-    public function setHostDetail(){
-        $result = $this->m->setHostDetail(1, 2);
-		//echo json_encode($result);
-    }
+    // load view user
     public function userList(){
-        $this->load->view('user');
+        if(isset($this->session->userdata['logged_in'])){
+            $this->load->view('user');
+        }else{
+            $this->load->view('login_form');
+        }
     }
-
-
-    // ***************
-    // * *  User   * *
-    // ***************
-    
+    // get all the user
     public function getUserList(){
         $result = $this->m->getUserList();
 		echo json_encode($result);
@@ -167,6 +106,4 @@ class User extends CI_Controller {
 		}
 		echo json_encode($msg);
     }
-    
-   
 }

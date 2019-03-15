@@ -10,10 +10,19 @@ class Service extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->model('user_model', 'm');
     }
-	public function index()
-	{
-		$this->load->view('service');
+    // ************
+    // * Service 
+    // ************
+
+    // auto load view
+	public function index(){
+        if(isset($this->session->userdata['logged_in'])){
+            $this->load->view('service');
+        }else{
+            $this->load->view('login_form');
+        }
     }
+    // get all service
     public function getserviceList(){
         $result = $this->m->getserviceList();
 		echo json_encode($result);
@@ -43,6 +52,7 @@ class Service extends CI_Controller {
 		}
 		echo json_encode($msg);
     }
+    // udate service
     public function updateService(){
         $result = $this->m->updateService();
 		$msg['success'] = false;

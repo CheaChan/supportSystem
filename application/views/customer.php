@@ -24,10 +24,10 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="<?php echo base_url('user/customerList'); ?>">Customer List<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<?php echo base_url('customer'); ?>">Customer List<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('user/userList'); ?>">User List</a>
+        <a class="nav-link" href="<?php echo base_url('user'); ?>">User List</a>
       </li>
       <li class="float-right nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -241,7 +241,7 @@
         $.ajax({
             type: 'ajax',
             method: 'get',
-            url: '<?php echo base_url() ?>user/getCustomerList',
+            url: '<?php echo base_url() ?>customer/getCustomerList',
             async: false,
             dataType: 'json',
             success: function(data)
@@ -290,7 +290,7 @@
     function getSystemType(sysId){
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>user/getSystemType',
+            url: '<?php echo base_url() ?>customer/getSystemType',
             async: false,
             dataType: 'json',
             success: function(data)
@@ -319,7 +319,7 @@
     function getServiceHost(hostId){
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>user/getServiceHost',
+            url: '<?php echo base_url() ?>customer/getServiceHost',
             async: false,
             dataType: 'json',
             success: function(data)
@@ -348,7 +348,7 @@
     function getServiceMain(mainId){
         $.ajax({
             type: 'ajax',
-            url: '<?php echo base_url() ?>user/getServiceMain',
+            url: '<?php echo base_url() ?>customer/getServiceMain',
             async: false,
             dataType: 'json',
             success: function(data)
@@ -387,7 +387,7 @@
         $.ajax({
             type: 'ajax',
                 method: 'get',
-                url: '<?php echo base_url() ?>user/calExpDate',
+                url: '<?php echo base_url() ?>customer/calExpDate',
                 data: {serv_id: serv_id},
                 async: false,
                 dataType: 'json',
@@ -428,7 +428,7 @@
                     type: 'ajax',
                     method: 'get',
                     async: false,
-                    url: '<?php echo base_url() ?>user/deleteCustomer',
+                    url: '<?php echo base_url() ?>customer/deleteCustomer',
                     data:{id:id},
                     dataType: 'json',
                     success: function(response){
@@ -459,7 +459,7 @@
                     format: 'yyyy-mm-dd'
                 });
             $('#myModal').find('.modal-title').text('Add New Customer');
-            $('#myForm').attr('action', '<?php echo base_url() ?>user/addCusomter');
+            $('#myForm').attr('action', '<?php echo base_url() ?>customer/addCusomter');
             getSystemType(null);
             getServiceHost(null);
             getServiceMain(null);
@@ -478,11 +478,11 @@
                     format: 'yyyy-mm-dd'
                 });
             $('#myModal').find('.modal-title').text('Edit Customer');
-            $('#myForm').attr('action', '<?php echo base_url() ?>user/updateCustomer');
+            $('#myForm').attr('action', '<?php echo base_url() ?>customer/updateCustomer');
             $.ajax({
                 type: 'ajax',
                 method: 'get',
-                url: '<?php echo base_url() ?>user/editCustomer',
+                url: '<?php echo base_url() ?>customer/editCustomer',
                 data: {id: id},
                 async: false,
                 dataType: 'json',
@@ -598,7 +598,7 @@
             $.ajax({
                 type: 'ajax',
                 method: 'get',
-                url: '<?php echo base_url() ?>user/viewCustomer',
+                url: '<?php echo base_url() ?>customer/viewCustomer',
                 data: {id: id},
                 async: false,
                 dataType: 'json',
