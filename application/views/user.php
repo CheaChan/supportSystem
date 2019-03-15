@@ -34,8 +34,8 @@
           Setting
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url('index.php/system'); ?>">System Type</a>
-          <a class="dropdown-item" href="<?php echo base_url('index.php/service'); ?>">Service Type</a>
+          <a class="dropdown-item" href="<?php echo base_url('systemtype'); ?>">System Type</a>
+          <a class="dropdown-item" href="<?php echo base_url('service'); ?>">Service Type</a>
         </div>
       </li>
     </ul>
@@ -229,7 +229,7 @@
                 });
             });
         });
-        // Add New Customer
+        // Add New user
         $('#btnAddUser').click(function()
         {
             $('#myModal').modal('show');

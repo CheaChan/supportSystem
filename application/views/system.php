@@ -34,8 +34,8 @@
           Setting
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url('index.php/system'); ?>">System Type</a>
-          <a class="dropdown-item" href="<?php echo base_url('index.php/service'); ?>">Service Type</a>
+          <a class="dropdown-item" href="<?php echo base_url('systemtype'); ?>">System Type</a>
+          <a class="dropdown-item" href="<?php echo base_url('service'); ?>">Service Type</a>
         </div>
       </li>
     </ul>
@@ -128,7 +128,7 @@
         $.ajax({
             type: 'ajax',
             method: 'get',
-            url: '<?php echo base_url() ?>index.php/system/getSystemList',
+            url: '<?php echo base_url() ?>systemtype/getSystemList',
             async: false,
             dataType: 'json',
             success: function(data)
@@ -162,7 +162,7 @@
     }
     $(function(){
         systemList();
-        //delete user 
+        //delete system 
         $('#systemListData').on('click', '.item-delete', function()
         {
             var id = $(this).attr('data');
@@ -174,13 +174,13 @@
                     type: 'ajax',
                     method: 'get',
                     async: false,
-                    url: '<?php echo base_url() ?>index.php/system/deleteSystem',
+                    url: '<?php echo base_url() ?>systemtype/deleteSystem',
                     data:{id:id},
                     dataType: 'json',
                     success: function(response){
                         if(response.success){
                             $('#deleteModal').modal('hide');
-                            $('.alert-success').html('User Deleted successfully').fadeIn().delay(4000).fadeOut('slow');
+                            $('.alert-success').html('System Deleted successfully').fadeIn().delay(4000).fadeOut('slow');
                             systemList();
                         }else{
                             alert('Error');
@@ -197,19 +197,19 @@
         {
             $('#myModal').modal('show');
             $('#myModal').find('.modal-title').text('Add New System');
-            $('#myForm').attr('action', '<?php echo base_url() ?>index.php/system/addSystem');
+            $('#myForm').attr('action', '<?php echo base_url() ?>systemtype/addSystem');
         });
-        // edit user
+        // edit system
         $('#systemListData').on('click', '.item-edit', function()
         {
             var id = $(this).attr('data');
             $('#myModal').modal('show');
             $('#myModal').find('.modal-title').text('Edit System');
-            $('#myForm').attr('action', '<?php echo base_url() ?>index.php/system/updateSystem');
+            $('#myForm').attr('action', '<?php echo base_url() ?>systemtype/updateSystem');
             $.ajax({
                 type: 'ajax',
                 method: 'get',
-                url: '<?php echo base_url() ?>index.php/system/editSystem',
+                url: '<?php echo base_url() ?>systemtype/editSystem',
                 data: {id: id},
                 async: false,
                 dataType: 'json',

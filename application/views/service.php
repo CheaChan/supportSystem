@@ -34,8 +34,8 @@
           Setting
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url('index.php/system'); ?>">System Type</a>
-          <a class="dropdown-item" href="<?php echo base_url('index.php/service'); ?>">Service Type</a>
+          <a class="dropdown-item" href="<?php echo base_url('systemtype'); ?>">System Type</a>
+          <a class="dropdown-item" href="<?php echo base_url('service'); ?>">Service Type</a>
         </div>
       </li>
     </ul>
@@ -153,7 +153,7 @@
         $.ajax({
             type: 'ajax',
             method: 'get',
-            url: '<?php echo base_url() ?>index.php/service/getserviceList',
+            url: '<?php echo base_url() ?>service/getserviceList',
             async: false,
             dataType: 'json',
             success: function(data)
@@ -190,7 +190,7 @@
     }
     $(function(){
         serviceList();
-        //delete user 
+        //delete service 
         $('#serviceListData').on('click', '.item-delete', function()
         {
             var id = $(this).attr('data');
@@ -202,7 +202,7 @@
                     type: 'ajax',
                     method: 'get',
                     async: false,
-                    url: '<?php echo base_url() ?>index.php/service/deleteService',
+                    url: '<?php echo base_url() ?>service/deleteService',
                     data:{id:id},
                     dataType: 'json',
                     success: function(response){
@@ -220,29 +220,29 @@
                 });
             });
         });
-        // Add New system
+        // Add New service
         $('#btnAddService').click(function()
         {
             $('#myModal').modal('show');
             $('#myModal').find('.modal-title').text('Add New Service');
-            $('#myForm').attr('action', '<?php echo base_url() ?>index.php/service/addService');
+            $('#myForm').attr('action', '<?php echo base_url() ?>service/addService');
             var htmlSysType ='';
                 htmlSysType += "<option value='' selected>Chose...</option>";
                 htmlSysType +="<option value='1'>Hosting</option>";
                 htmlSysType +="<option value='2'>Maintenance</option>";  
                 $('#serviceType').html(htmlSysType);
         });
-        // edit user
+        // edit service
         $('#serviceListData').on('click', '.item-edit', function()
         {
             var id = $(this).attr('data');
             $('#myModal').modal('show');
             $('#myModal').find('.modal-title').text('Edit Service');
-            $('#myForm').attr('action', '<?php echo base_url() ?>index.php/service/updateService');
+            $('#myForm').attr('action', '<?php echo base_url() ?>service/updateService');
             $.ajax({
                 type: 'ajax',
                 method: 'get',
-                url: '<?php echo base_url() ?>index.php/service/editService',
+                url: '<?php echo base_url() ?>service/editService',
                 data: {id: id},
                 async: false,
                 dataType: 'json',
