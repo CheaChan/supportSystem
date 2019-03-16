@@ -17,7 +17,9 @@ class SystemType extends CI_Controller {
     // auto load view
 	public function index(){
         if(isset($this->session->userdata['logged_in'])){
+            $this->load->view('dashboard/header');
             $this->load->view('system');
+            $this->load->view('dashboard/footer');
         }else{
             $this->load->view('login_form');
         }

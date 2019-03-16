@@ -18,7 +18,9 @@ class User extends CI_Controller {
 	public function index()
 	{
         if(isset($this->session->userdata['logged_in'])){
+            $this->load->view('dashboard/header');
             $this->load->view('user');
+            $this->load->view('dashboard/footer');
         }else{
             $this->load->view('login_form');
         }
@@ -102,6 +104,15 @@ class User extends CI_Controller {
 		$msg['success'] = false;
 		if($result)
 		{
+			$msg['success'] = true;
+		}
+		echo json_encode($msg);
+    }
+    // update user
+    public function changePassword(){
+        $result = $this->m->changePassword();
+		$msg['success'] = false;
+		if($result){
 			$msg['success'] = true;
 		}
 		echo json_encode($msg);

@@ -16,6 +16,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // user login 
     public function get_user_logged_in($data){
         $condition = "u_name =" . "'" . $data['username'] . "' AND " . "u_pass =" . "'" . $data['password'] . "'";
         $query =  "SELECT * FROM user WHERE {$condition} LIMIT 1";
@@ -26,7 +27,11 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // ************
+    // * Customer
+    // ************
 
+    // get customer list
     public function getCustomerList(){
         $this->db->select('c.*, st.sys_type');
         $this->db->from('customer c'); 
@@ -42,6 +47,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // get the system type
     public function getSystemType(){
         $this->db->select('*');
         $this->db->from('system_type'); 
@@ -56,6 +62,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // get the service hosting
     public function getServiceHost(){
         $this->db->select('*');
         $this->db->from('service_type'); 
@@ -71,6 +78,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // get the service maintenance
     public function getServiceMain(){
         $this->db->select('*');
         $this->db->from('service_type'); 
@@ -86,6 +94,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // calculate the expire date
     public function calExpDate(){
         $serv_id = $this->input->get('serv_id');
         $this->db->select('serv_duration');
@@ -99,6 +108,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // add new customer
     public function addCusomter(){
         $fields = array(
             'c_name'=>$this->input->post('customerName'),
@@ -121,16 +131,22 @@ Class User_model extends CI_Model {
             
             $c_id = $this->db->insert_id();
             $serv_host_id = $fields['serv_host_id'];
+            $start_date_host = $fields['start_date_host'];
             $serv_main_id = $fields['serv_main_id'];
-            $this->setHostDetail($c_id, $serv_host_id);
-            $this->setMainDetail($c_id, $serv_main_id);
+            $start_date_main = $fields['start_date_main'];
+            if(($serv_host_id !='' || $serv_host_id != null) && ($start_date_host!='' || $start_date_host!=null)){
+                $this->setHostDetail($c_id, $serv_host_id);
+            }
+            if(($serv_main_id !='' || $serv_main_id != null) && ($start_date_main!='' || $start_date_main!=null)){
+                $this->setHostDetail($c_id, $serv_main_id);
+            }
             return true;
         }else{
             return false;
         }
 
     }
-
+    // set host detail in service detail
     public function setHostDetail($c_id, $serv_host_id){
         $data_host=$this->db->query("SELECT serv_price, serv_duration FROM service_type WHERE serv_id =".$serv_host_id);
         foreach ($data_host->result() as $row)
@@ -153,6 +169,7 @@ Class User_model extends CI_Model {
             $this->db->insert_batch('service_detail',$serv_host_datail_temp);
         }
     }
+    // set main detail in service detail
     public function setMainDetail($c_id, $serv_main_id){
         $data_main=$this->db->query("SELECT serv_price, serv_duration FROM service_type WHERE serv_id =".$serv_main_id);
         foreach ($data_main->result() as $row)
@@ -175,6 +192,7 @@ Class User_model extends CI_Model {
             $this->db->insert_batch('service_detail',$serv_main_datail_temp);
         }
     }
+    // edit the customer
     public function editCustomer(){
         $id = $this->input->get('id');
         $this->db->select('*');
@@ -190,6 +208,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // update the customer
     public function updateCustomer(){
         $id = $this->input->post('txtId');
         $fields = array(
@@ -221,10 +240,12 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // delete detail
     public function deleteServDetail($c_id){
         $this->db->where('c_id', $c_id);
         $this->db->delete('service_detail');
     }
+    // delete the customer
     public function deleteCustomer(){
         $id = $this->input->get('id');
         $this->db->where('c_id', $id);
@@ -236,6 +257,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // view customer detail
     public function viewCustomer(){
         $id = $this->input->get('id');
         $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type,
@@ -254,6 +276,21 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // get expire date
+    public function getExpireDate(){
+        $this->db->select('exp_date_host, exp_date_main');
+        $this->db->from('customer c');        
+        $query = $this->db->get(); 
+        if($query->num_rows() != 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
 
     // ***************
     // * *  User   * *
@@ -289,7 +326,6 @@ Class User_model extends CI_Model {
         }else{
             return false;
         }
-
     }
     // edit user
     public function editUser(){
@@ -305,6 +341,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // update user
     public function updateUser(){
         $id = $this->input->post('txtEditId');
         $fields = array(
@@ -334,6 +371,7 @@ Class User_model extends CI_Model {
     // *************
     // ** System 
     // *************
+
     // get all the system
     public function getSystemList(){
         $this->db->select('*');
@@ -346,18 +384,6 @@ Class User_model extends CI_Model {
         }
         else
         {
-            return false;
-        }
-    }
-    // delete system
-    public function deleteSystem(){
-        $id = $this->input->get('id');
-        $this->db->where('sys_id', $id);
-        $this->db->delete('system_type');
-        if($this->db->affected_rows() > 0)
-        {
-            return true;
-        }else{
             return false;
         }
     }
@@ -390,6 +416,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // update system type
     public function updateSystem(){
         $id = $this->input->post('txtId');
         $fields = array(
@@ -404,9 +431,22 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // delete system
+    public function deleteSystem(){
+        $id = $this->input->get('id');
+        $this->db->where('sys_id', $id);
+        $this->db->delete('system_type');
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
     // *************
     // ** Service 
     // *************
+
     // get all the service
     public function getserviceList(){
         $this->db->select('*');
@@ -419,18 +459,6 @@ Class User_model extends CI_Model {
         }
         else
         {
-            return false;
-        }
-    }
-    // delete service
-    public function deleteService(){
-        $id = $this->input->get('id');
-        $this->db->where('serv_id', $id);
-        $this->db->delete('service_type');
-        if($this->db->affected_rows() > 0)
-        {
-            return true;
-        }else{
             return false;
         }
     }
@@ -450,7 +478,6 @@ Class User_model extends CI_Model {
         }else{
             return false;
         }
-
     }
     // edit service
     public function editService(){
@@ -466,6 +493,7 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // update service
     public function updateService(){
         $id = $this->input->post('txtId');
         $fields = array(
@@ -476,6 +504,18 @@ Class User_model extends CI_Model {
             );
         $this->db->where('serv_id', $id);
         $this->db->update('service_type', $fields);
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    // delete service
+    public function deleteService(){
+        $id = $this->input->get('id');
+        $this->db->where('serv_id', $id);
+        $this->db->delete('service_type');
         if($this->db->affected_rows() > 0)
         {
             return true;

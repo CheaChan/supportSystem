@@ -18,7 +18,9 @@ class Customer extends CI_Controller {
     public function index()
 	{
 		if(isset($this->session->userdata['logged_in'])){
+            $this->load->view('dashboard/header');
             $this->load->view('customer');
+            $this->load->view('dashboard/footer');
         }else{
             $this->load->view('login_form');
         }
@@ -26,7 +28,9 @@ class Customer extends CI_Controller {
     // load the view customer
     public function customerList(){
         if(isset($this->session->userdata['logged_in'])){
+            $this->load->view('dashboard/header');
             $this->load->view('customer');
+            $this->load->view('dashboard/footer');
         }else{
             $this->load->view('login_form');
         }
@@ -96,4 +100,15 @@ class Customer extends CI_Controller {
         $result = $this->m->viewCustomer();
 		echo json_encode($result);
     }  
+    // get expire date
+    public function getExpireDate(){
+        $result = $this->m->getExpireDate();
+		echo json_encode($result);
+    }
+    public function loadDashboard(){
+        $this->load->view('dashboard/header');
+        $this->load->view('dashboard/dashboard');
+        $this->load->view('dashboard/footer');
+       
+    }
 }
