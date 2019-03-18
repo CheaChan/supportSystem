@@ -139,68 +139,72 @@
                         dataType: 'json',
                         success: function(data){
                             console.log(data);
+                            var i;
                             var htmlTable1 = '';
-                    htmlTable1 +='<tr>'+
-                                    '<td>'+'Code :'+'</td>'+
-                                    '<th>'+data.c_id.padStart(5, '0')+'</th>'+
-                                    '<td>'+'Customer Name:'+'</td>'+
-                                    '<th>'+data.c_name+'</th>'+
-                                    '<td>'+'Phone Numer :'+'</td>'+
-                                    '<th>'+data.c_phone+'</th>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>'+'Organization :'+'</td>'+
-                                    '<th>'+data.c_org+'</th>'+
-                                    '<td>'+'Public IP :'+'</td>'+
-                                    '<th>'+data.public_ip+'</th>'+
-                                    '<td>'+'System Type:'+'</td>'+
-                                    '<th>'+data.sys_type+'</th>'+
-                                '</tr>'+
-                                '<tr class="">'+
-                                    '<th>No</th>'+
-                                    '<th>Service Name</th>'+
-                                    '<th>Duration</th>'+
-                                    '<th>Start Date</th>'+
-                                    '<th>Expire Date</th>'+
-                                    '<th>Price</th>'+'</tr>';
-                            if(data.serv_host_id != 0 && data.serv_main_id != 0){
-                                htmlTable1 +='<tr class="">'+
-                                    '<td>1</td>'+
-                                    '<td>'+data.host_name+'</td>'+
-                                    '<td>'+data.host_duration+'</td>'+
-                                    '<td>'+data.start_date_host+'</td>'+
-                                    '<td>'+data.exp_date_host+'</td>'+
-                                    '<td>$'+data.host_price+'</td>'+'</tr>'+
-                                '<tr class="">'+
-                                    '<td>2</td>'+
-                                    '<td>'+data.main_name+'</td>'+
-                                    '<td>'+data.main_duration+'</td>'+
-                                    '<td>'+data.start_date_main+'</td>'+
-                                    '<td>'+data.exp_date_main+'</td>'+
-                                    '<td>$'+data.main_price+'</td>'+'</tr>'+
-                                '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.host_price)+parseInt(data.main_price))+'</th></tr>';
-                            }else{
-                                if(data.serv_host_id != 0){
+                            for(i=0; i<data.length; i++)
+                            {
+                                
+                                htmlTable1 +='<tr>'+
+                                        '<td>'+'Code :'+'</td>'+
+                                        '<th>'+'C'+data[i].c_id.padStart(5, '0')+'</th>'+
+                                        '<td>'+'Customer Name:'+'</td>'+
+                                        '<th>'+data[i].c_name+'</th>'+
+                                        '<td>'+'Phone Numer :'+'</td>'+
+                                        '<th>'+data[i].c_phone+'</th>'+
+                                    '</tr>'+
+                                    '<tr>'+
+                                        '<td>'+'Organization :'+'</td>'+
+                                        '<th>'+data[i].c_org+'</th>'+
+                                        '<td>'+'Public IP :'+'</td>'+
+                                        '<th>'+data[i].public_ip+'</th>'+
+                                        '<td>'+'System Type:'+'</td>'+
+                                        '<th>'+data[i].sys_type+'</th>'+
+                                    '</tr>'+
+                                    '<tr class="">'+
+                                        '<th>Code</th>'+
+                                        '<th>Service Name</th>'+
+                                        '<th>Duration</th>'+
+                                        '<th>Start Date</th>'+
+                                        '<th>Expire Date</th>'+
+                                        '<th>Price</th>'+'</tr>';
+                                if(data[i].serv_host_id != 0 && data[i].serv_main_id != 0){
                                     htmlTable1 +='<tr class="">'+
-                                    '<td>1</td>'+
-                                    '<td>'+data.host_name+'</td>'+
-                                    '<td>'+data.host_duration+'</td>'+
-                                    '<td>'+data.start_date_host+'</td>'+
-                                    '<td>'+data.exp_date_host+'</td>'+
-                                    '<td>$'+data.host_price+'</td>'+'</tr>'+
-                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.host_price))+'</th></tr>';
+                                        '<td>'+'S'+data[i].serv_host_id.padStart(5, '0')+'</td>'+
+                                        '<td>'+data[i].host_name+'</td>'+
+                                        '<td>'+data[i].host_duration+'</td>'+
+                                        '<td>'+data[i].start_date_host+'</td>'+
+                                        '<td>'+data[i].exp_date_host+'</td>'+
+                                        '<td>$'+data[i].host_price+'</td>'+'</tr>'+
+                                    '<tr class="">'+
+                                        '<td>'+'S'+data[i].serv_main_id.padStart(5, '0')+'</td>'+
+                                        '<td>'+data[i].main_name+'</td>'+
+                                        '<td>'+data[i].main_duration+'</td>'+
+                                        '<td>'+data[i].start_date_main+'</td>'+
+                                        '<td>'+data[i].exp_date_main+'</td>'+
+                                        '<td>$'+data[i].main_price+'</td>'+'</tr>'+
+                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data[i].host_price)+parseInt(data[i].main_price))+'</th></tr><br/>';
+                                }else{
+                                    if(data[i].serv_host_id != 0){
+                                        htmlTable1 +='<tr class="">'+
+                                        '<td>'+'S'+data[i].serv_host_id.padStart(5, '0')+'</td>'+
+                                        '<td>'+data[i].host_name+'</td>'+
+                                        '<td>'+data[i].host_duration+'</td>'+
+                                        '<td>'+data[i].start_date_host+'</td>'+
+                                        '<td>'+data[i].exp_date_host+'</td>'+
+                                        '<td>$'+data[i].host_price+'</td>'+'</tr>'+
+                                        '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data[i].host_price))+'</th></tr></br>';
+                                    }
+                                    if(data[i].serv_main_id != 0){
+                                        htmlTable1 +='<tr class="">'+
+                                        '<td>'+'S'+data[i].serv_main_id.padStart(5, '0')+'</td>'+
+                                        '<td>'+data[i].main_name+'</td>'+
+                                        '<td>'+data[i].main_duration+'</td>'+
+                                        '<td>'+data[i].start_date_main+'</td>'+
+                                        '<td>'+data[i].exp_date_main+'</td>'+
+                                        '<td>$'+data[i].main_price+'</td>'+'</tr>'+
+                                        '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data[i].main_price))+'</th></tr><br/>';
+                                    }
                                 }
-                                if(data.serv_main_id != 0){
-                                    htmlTable1 +='<tr class="">'+
-                                    '<td>1</td>'+
-                                    '<td>'+data.main_name+'</td>'+
-                                    '<td>'+data.main_duration+'</td>'+
-                                    '<td>'+data.start_date_main+'</td>'+
-                                    '<td>'+data.exp_date_main+'</td>'+
-                                    '<td>$'+data.main_price+'</td>'+'</tr>'+
-                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.main_price))+'</th></tr>';
-                                }
-
                             }
                         $('#customerListExpDetail').html(htmlTable1);
                         },
@@ -342,7 +346,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <table id="customerListDetail" class="table table-borderless " style="width:100%">
+                                <table id="customerListDetail" class="table table-striped" style="width:100%">
                                     <thead id="customerListExpDetail" style="width:100%">
                                     
                                     </thead>

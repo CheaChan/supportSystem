@@ -148,7 +148,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <table id="customerListDetail" class="table table-borderless " style="width:100%">
+                                <table id="customerListDetail" class="table table-striped " style="width:100%">
                                     <thead id="customerListDetailTable1" style="width:100%">
                                     
                                     </thead>
@@ -535,7 +535,7 @@
                     var htmlTable1 = '';
                     htmlTable1 +='<tr>'+
                                     '<td>'+'Code :'+'</td>'+
-                                    '<th>'+data.c_id.padStart(5, '0')+'</th>'+
+                                    '<th>'+'C'+data.c_id.padStart(5, '0')+'</th>'+
                                     '<td>'+'Customer Name:'+'</td>'+
                                     '<th>'+data.c_name+'</th>'+
                                     '<td>'+'Phone Numer :'+'</td>'+
@@ -558,14 +558,14 @@
                                     '<th>Price</th>'+'</tr>';
                             if(data.serv_host_id != 0 && data.serv_main_id != 0){
                                 htmlTable1 +='<tr class="">'+
-                                    '<td>1</td>'+
+                                    '<td>'+'S'+data.serv_host_id.padStart(5, '0')+'</td>'+
                                     '<td>'+data.host_name+'</td>'+
                                     '<td>'+data.host_duration+'</td>'+
                                     '<td>'+data.start_date_host+'</td>'+
                                     '<td>'+data.exp_date_host+'</td>'+
                                     '<td>$'+data.host_price+'</td>'+'</tr>'+
                                 '<tr class="">'+
-                                    '<td>2</td>'+
+                                    '<td>'+'S'+data.serv_main_id.padStart(5, '0')+'</td>'+
                                     '<td>'+data.main_name+'</td>'+
                                     '<td>'+data.main_duration+'</td>'+
                                     '<td>'+data.start_date_main+'</td>'+
@@ -575,7 +575,7 @@
                             }else{
                                 if(data.serv_host_id != 0){
                                     htmlTable1 +='<tr class="">'+
-                                    '<td>1</td>'+
+                                    '<td>'+'S'+data.serv_host_id.padStart(5, '0')+'</td>'+
                                     '<td>'+data.host_name+'</td>'+
                                     '<td>'+data.host_duration+'</td>'+
                                     '<td>'+data.start_date_host+'</td>'+
@@ -585,7 +585,7 @@
                                 }
                                 if(data.serv_main_id != 0){
                                     htmlTable1 +='<tr class="">'+
-                                    '<td>1</td>'+
+                                    '<td>'+'S'+data.serv_main_id.padStart(5, '0')+'</td>'+
                                     '<td>'+data.main_name+'</td>'+
                                     '<td>'+data.main_duration+'</td>'+
                                     '<td>'+data.start_date_main+'</td>'+
