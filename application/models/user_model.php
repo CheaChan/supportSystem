@@ -278,7 +278,7 @@ Class User_model extends CI_Model {
     }
     // view customer detail
     public function viewCustomerExpire(){
-        $ids = array('1', '2', '2', '3', '3');
+        $ids = array( 2, 3);
         $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type, c.serv_host_id, c.serv_main_id,
          svh.serv_type host_name, svh.serv_duration host_duration, svh.serv_price host_price, c.start_date_host, c.exp_date_host, 
          svm.serv_type main_name, svm.serv_duration main_duration, svm.serv_price main_price, c.start_date_main, c.exp_date_main');
