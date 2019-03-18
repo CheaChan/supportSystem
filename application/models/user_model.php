@@ -260,7 +260,7 @@ Class User_model extends CI_Model {
     // view customer detail
     public function viewCustomer(){
         $id = $this->input->get('id');
-        $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type,
+        $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type, c.serv_host_id, c.serv_main_id,
          svh.serv_type host_name, svh.serv_duration host_duration, svh.serv_price host_price, c.start_date_host, c.exp_date_host, 
          svm.serv_type main_name, svm.serv_duration main_duration, svm.serv_price main_price, c.start_date_main, c.exp_date_main');
         $this->db->from('customer c'); 
@@ -276,9 +276,28 @@ Class User_model extends CI_Model {
             return false;
         }
     }
+    // view customer detail
+    public function viewCustomerExpire(){
+        $ids = array('1', '2', '2', '3', '3');
+        $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type, c.serv_host_id, c.serv_main_id,
+         svh.serv_type host_name, svh.serv_duration host_duration, svh.serv_price host_price, c.start_date_host, c.exp_date_host, 
+         svm.serv_type main_name, svm.serv_duration main_duration, svm.serv_price main_price, c.start_date_main, c.exp_date_main');
+        $this->db->from('customer c'); 
+        $this->db->join('system_type st', 'st.sys_id = c.sys_type_id', 'left');
+        $this->db->join('service_type svh', 'svh.serv_id = c.serv_host_id ', 'left');
+        $this->db->join('service_type svm', 'svm.serv_id = c.serv_main_id ', 'left');
+        $this->db->where_in('c.c_id', $ids);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            return $query->row();
+        }else{
+            return false;
+        }
+    }
     // get expire date
     public function getExpireDate(){
-        $this->db->select('exp_date_host, exp_date_main');
+        $this->db->select('c_id, exp_date_host, exp_date_main');
         $this->db->from('customer c');        
         $query = $this->db->get(); 
         if($query->num_rows() != 0)
@@ -361,6 +380,33 @@ Class User_model extends CI_Model {
         $id = $this->input->get('id');
         $this->db->where('u_id', $id);
         $this->db->delete('user');
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public function getCurrentPassword($u_id){
+        $this->db->select('u_id, u_pass');
+        $this->db->from('user c'); 
+        $this->db->where('u_id', $u_id);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            return $query->row();
+        }else{
+            return false;
+        }
+    }
+    // update user
+    public function changePassword($u_id){
+        //$id = $this->input->post('txtId');
+        $fields = array(
+            'u_pass'=>$this->input->post('newPassword')
+            );
+        $this->db->where('u_id', $u_id);
+        $this->db->update('user', $fields);
         if($this->db->affected_rows() > 0)
         {
             return true;

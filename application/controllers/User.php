@@ -108,13 +108,21 @@ class User extends CI_Controller {
 		}
 		echo json_encode($msg);
     }
-    // update user
+    // get current password
+    public function getCurrentPassword(){
+        $u_id = $this->session->userdata['logged_in']['u_id'];
+        $result = $this->m->getCurrentPassword($u_id);
+		echo json_encode($result);
+    }
+    // change password
     public function changePassword(){
-        $result = $this->m->changePassword();
+        $u_id = $this->session->userdata['logged_in']['u_id'];
+        $result = $this->m->changePassword($u_id);
 		$msg['success'] = false;
 		if($result){
 			$msg['success'] = true;
 		}
 		echo json_encode($msg);
     }
+
 }

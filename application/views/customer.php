@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style="min-width: 100%; margin-top: 10%;">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">Customer View Detail</h4>
@@ -148,31 +148,12 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <table id="customerListDetail" class="table table-striped table-bordered text-center" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <td>Code</td>
-                                            <td>Name</td>
-                                            <td>Phone</td>
-                                            <td>Org</td>
-                                            <td>Public IP</td>
-                                            <td>System</td>
-                                            <td>Service Host</td>
-                                            <td>Host Start</td>
-                                            <td>Host Exp</td>
-                                            <td>Host Duration</td>
-                                            <td>Host Price</td>
-                                            <td>Service Main</td>
-                                            <td>Main Start</td>
-                                            <td>Main Exp</td>
-                                            <td>Main Duration</td>
-                                            <td>Main Price</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="customerListDetailData">
+                                <table id="customerListDetail" class="table table-borderless " style="width:100%">
+                                    <thead id="customerListDetailTable1" style="width:100%">
                                     
-                                    </tbody>
+                                    </thead>
                                 </table>
+                                
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -184,12 +165,6 @@
         </div><!-- .content -->
     </div><!-- /#right-panel -->
     <!-- Right Panel --> 
-    <?php 
-        $start = strtotime('2010-01-25');
-        $end = strtotime('2010-02-1');
-        
-        echo ($days_between = ceil(abs($end - $start) / 86400));
-    ?>
 <script>
     // function to get list of customer
     function customerList(){
@@ -557,26 +532,70 @@
                 async: false,
                 dataType: 'json',
                 success: function(data){
-                    var html = '';
-                    html +='<tr>'+
-                                '<td>'+data.c_id.padStart(5, '0')+'</td>'+
-                                '<td>'+data.c_name+'</td>'+
-                                '<td>'+data.c_phone+'</td>'+
-                                '<td>'+data.c_org+'</td>'+
-                                '<td>'+data.public_ip+'</td>'+
-                                '<td>'+data.sys_type+'</td>'+
-                                '<td>'+data.host_name+'</td>'+
-                                '<td>'+data.start_date_host+'</td>'+
-                                '<td>'+data.exp_date_host+'</td>'+
-                                '<td>'+data.host_duration+'</td>'+
-                                '<td>'+data.host_price+'</td>'+
-                                '<td>'+data.main_name+'</td>'+
-                                '<td>'+data.start_date_main+'</td>'+
-                                '<td>'+data.exp_date_main+'</td>'+
-                                '<td>'+data.main_duration+'</td>'+
-                                '<td>'+data.main_price+'</td>'+
-                            '</tr>';
-                    $('#customerListDetailData').html(html);
+                    var htmlTable1 = '';
+                    htmlTable1 +='<tr>'+
+                                    '<td>'+'Code :'+'</td>'+
+                                    '<th>'+data.c_id.padStart(5, '0')+'</th>'+
+                                    '<td>'+'Customer Name:'+'</td>'+
+                                    '<th>'+data.c_name+'</th>'+
+                                    '<td>'+'Phone Numer :'+'</td>'+
+                                    '<th>'+data.c_phone+'</th>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>'+'Organization :'+'</td>'+
+                                    '<th>'+data.c_org+'</th>'+
+                                    '<td>'+'Public IP :'+'</td>'+
+                                    '<th>'+data.public_ip+'</th>'+
+                                    '<td>'+'System Type:'+'</td>'+
+                                    '<th>'+data.sys_type+'</th>'+
+                                '</tr>'+
+                                '<tr class="">'+
+                                    '<th>No</th>'+
+                                    '<th>Service Name</th>'+
+                                    '<th>Duration</th>'+
+                                    '<th>Start Date</th>'+
+                                    '<th>Expire Date</th>'+
+                                    '<th>Price</th>'+'</tr>';
+                            if(data.serv_host_id != 0 && data.serv_main_id != 0){
+                                htmlTable1 +='<tr class="">'+
+                                    '<td>1</td>'+
+                                    '<td>'+data.host_name+'</td>'+
+                                    '<td>'+data.host_duration+'</td>'+
+                                    '<td>'+data.start_date_host+'</td>'+
+                                    '<td>'+data.exp_date_host+'</td>'+
+                                    '<td>$'+data.host_price+'</td>'+'</tr>'+
+                                '<tr class="">'+
+                                    '<td>2</td>'+
+                                    '<td>'+data.main_name+'</td>'+
+                                    '<td>'+data.main_duration+'</td>'+
+                                    '<td>'+data.start_date_main+'</td>'+
+                                    '<td>'+data.exp_date_main+'</td>'+
+                                    '<td>$'+data.main_price+'</td>'+'</tr>'+
+                                '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.host_price)+parseInt(data.main_price))+'</th></tr>';
+                            }else{
+                                if(data.serv_host_id != 0){
+                                    htmlTable1 +='<tr class="">'+
+                                    '<td>1</td>'+
+                                    '<td>'+data.host_name+'</td>'+
+                                    '<td>'+data.host_duration+'</td>'+
+                                    '<td>'+data.start_date_host+'</td>'+
+                                    '<td>'+data.exp_date_host+'</td>'+
+                                    '<td>$'+data.host_price+'</td>'+'</tr>'+
+                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.host_price))+'</th></tr>';
+                                }
+                                if(data.serv_main_id != 0){
+                                    htmlTable1 +='<tr class="">'+
+                                    '<td>1</td>'+
+                                    '<td>'+data.main_name+'</td>'+
+                                    '<td>'+data.main_duration+'</td>'+
+                                    '<td>'+data.start_date_main+'</td>'+
+                                    '<td>'+data.exp_date_main+'</td>'+
+                                    '<td>$'+data.main_price+'</td>'+'</tr>'+
+                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.main_price))+'</th></tr>';
+                                }
+
+                            }
+                    $('#customerListDetailTable1').html(htmlTable1);
                 },
                 error: function()
                 {

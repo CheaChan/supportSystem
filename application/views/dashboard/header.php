@@ -33,28 +33,11 @@
                 dataType: 'json',
                 success: function(data)
                 {
-                    
-                    for(i=0; i<data.length; i++){
-                        
-                    }
-                    // var date = new Date(serviceStartDate);
-                    // var newdate = new Date(date);
-                    // newdate.setMonth(newdate.getMonth() + parseInt(data.serv_duration));
-                    // var dd = newdate.getDate();
-                    // var mm = newdate.getMonth() + 1;
-                    // var y = newdate.getFullYear();
-                    // var someFormattedDate = y + '-' + mm + '-' + dd;
-                    
-                    // if(type == 1){
-                    //     $('input[name=hostExpDate]').val(someFormattedDate);
-                    // }
-                    // if(type == 2){
-                    //     $('input[name=mainExpDate]').val(someFormattedDate);
-                    // }
+                    $("#amountExPay").html(data);
                 },
                 error: function()
                 {
-                    alert('Could not get system type from database');
+                    alert('Could not get expire date from database');
                 }
             });
         }
@@ -62,69 +45,171 @@
             getExpireDate();
             $('#changePass').click(function(){
                 $('#myChangePasswordModal').modal('show');
-                $('#myForm').attr('action', '<?php echo base_url() ?>user/changePassword');
+                $('#myChangePassForm').attr('action', '<?php echo base_url() ?>user/changePassword');
 
             });
              // validation bntSave for add & update
-        $('#btnSaveChange').click(function()
-        {
-            var url = $('#myForm').attr('action');
-            var data = $('#myForm').serialize();
-            // //validate form
-            var currentPassword = $('input[name=currentPassword]');
-            var newPassword = $('input[name=newPassword]');
-            var confirmNewPassword = $('input[name=confirmNewPassword]');
-            var result = '';
-            if(currentPassword.val()==''){
-                $("#msgCurrentPassword").text("Current Password cannot be null");
-            }else{
-                $("#msgCurrentPassword").text("");
-                result +='a';
-            }
-            if(newPassword.val()==''){
-                $("#msgNewPassword").text("New Password cannot be null");
-            }else{
-                $("#msgNewPassword").text("");
-                result +='b';
-            }
-            if(confirmNewPassword.val()==''){
-                $("#msgConfirmNewPassword").text("Confirm Password cannot be null");
-            }else{
-                if(newPassword.val() != confirmNewPassword.val()){
-                    $("#msgConfirmNewPassword").text("Confirm Password not match!");
-                }else{ 
-                    $("#msgConfirmNewPassword").text("");
-                    result +='c';
-                }
-            }
-
-            if(result=='abc'){
-                $.ajax({
-                    type: 'ajax',
-                    method: 'post',
-                    url: url,
-                    data: data,
-                    async: false,
-                    dataType: 'json',
-                    success: function(response){
-                        if(response.success){
-                            $('#myModal').modal('hide');
-                            $('#myForm')[0].reset();
-                            
-                            $('.alert-success').html('Change Password successfully').fadeIn().delay(4000).fadeOut('slow');
-                            customerList();
-                        }else{
-                            alert('Error');
+            $('#btnSaveChange').click(function()
+            {
+                var url = $('#myChangePassForm').attr('action');
+                var data = $('#myChangePassForm').serialize();
+                // //validate form
+                var currentPassword = $('input[name=currentPassword]');
+                var newPassword = $('input[name=newPassword]');
+                var confirmNewPassword = $('input[name=confirmNewPassword]');
+                var result = '';
+                if(currentPassword.val()==''){
+                    $("#msgCurrentPassword").text("Current Password cannot be null");
+                }else{
+                    $.ajax({
+                        type: 'ajax',
+                        method: 'get',
+                        url: '<?php echo base_url() ?>user/getCurrentPassword',
+                        async: false,
+                        dataType: 'json',
+                        success: function(data){
+                            console.log(data);
+                            if(data.u_pass != currentPassword.val()){
+                                $("#msgCurrentPassword").text("Wrong Current Password");
+                            }else{
+                                //$('input[name=txtId]').val(data.u_id);
+                                $("#msgCurrentPassword").text("");
+                                result +='a';
+                            }
+                        },
+                        error: function(){
+                            alert('Could not add data');
                         }
-                    },
-                    error: function(){
-                        alert('Could not add data');
+                    });
+                    
+                }
+                if(newPassword.val()==''){
+                    $("#msgNewPassword").text("New Password cannot be null");
+                }else{
+                    $("#msgNewPassword").text("");
+                    result +='b';
+                }
+                if(confirmNewPassword.val()==''){
+                    $("#msgConfirmNewPassword").text("Confirm Password cannot be null");
+                }else{
+                    if(newPassword.val() != confirmNewPassword.val()){
+                        $("#msgConfirmNewPassword").text("Confirm Password not match!");
+                    }else{ 
+                        $("#msgConfirmNewPassword").text("");
+                        result +='c';
                     }
+                }
+
+                if(result=='abc'){
+                    $.ajax({
+                        type: 'ajax',
+                        method: 'post',
+                        url: url,
+                        data: data,
+                        async: false,
+                        dataType: 'json',
+                        success: function(response){
+                            if(response.success){
+                                $('#myChangePasswordModal').modal('hide');
+                                $('#myChangePassForm')[0].reset();
+                                $('.alert-success').html('Change Password successfully').fadeIn().delay(4000).fadeOut('slow');
+                                customerList();
+                            }else{
+                                alert('Error');
+                            }
+                        },
+                        error: function(){
+                            alert('Could not add data');
+                        }
+                    });
+                }else{
+                    
+                }
+            });
+            // validation bntSave for add & update
+            $('#alertExp').click(function()
+            {
+                $('#alertExpModal').modal('show');
+                    $.ajax({
+                        type: 'ajax',
+                        method: 'get',
+                        url: '<?php echo base_url() ?>customer/viewCustomerExpire',
+                        data: {},
+                        async: false,
+                        dataType: 'json',
+                        success: function(data){
+                            console.log(data);
+                            var htmlTable1 = '';
+                    htmlTable1 +='<tr>'+
+                                    '<td>'+'Code :'+'</td>'+
+                                    '<th>'+data.c_id.padStart(5, '0')+'</th>'+
+                                    '<td>'+'Customer Name:'+'</td>'+
+                                    '<th>'+data.c_name+'</th>'+
+                                    '<td>'+'Phone Numer :'+'</td>'+
+                                    '<th>'+data.c_phone+'</th>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>'+'Organization :'+'</td>'+
+                                    '<th>'+data.c_org+'</th>'+
+                                    '<td>'+'Public IP :'+'</td>'+
+                                    '<th>'+data.public_ip+'</th>'+
+                                    '<td>'+'System Type:'+'</td>'+
+                                    '<th>'+data.sys_type+'</th>'+
+                                '</tr>'+
+                                '<tr class="">'+
+                                    '<th>No</th>'+
+                                    '<th>Service Name</th>'+
+                                    '<th>Duration</th>'+
+                                    '<th>Start Date</th>'+
+                                    '<th>Expire Date</th>'+
+                                    '<th>Price</th>'+'</tr>';
+                            if(data.serv_host_id != 0 && data.serv_main_id != 0){
+                                htmlTable1 +='<tr class="">'+
+                                    '<td>1</td>'+
+                                    '<td>'+data.host_name+'</td>'+
+                                    '<td>'+data.host_duration+'</td>'+
+                                    '<td>'+data.start_date_host+'</td>'+
+                                    '<td>'+data.exp_date_host+'</td>'+
+                                    '<td>$'+data.host_price+'</td>'+'</tr>'+
+                                '<tr class="">'+
+                                    '<td>2</td>'+
+                                    '<td>'+data.main_name+'</td>'+
+                                    '<td>'+data.main_duration+'</td>'+
+                                    '<td>'+data.start_date_main+'</td>'+
+                                    '<td>'+data.exp_date_main+'</td>'+
+                                    '<td>$'+data.main_price+'</td>'+'</tr>'+
+                                '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.host_price)+parseInt(data.main_price))+'</th></tr>';
+                            }else{
+                                if(data.serv_host_id != 0){
+                                    htmlTable1 +='<tr class="">'+
+                                    '<td>1</td>'+
+                                    '<td>'+data.host_name+'</td>'+
+                                    '<td>'+data.host_duration+'</td>'+
+                                    '<td>'+data.start_date_host+'</td>'+
+                                    '<td>'+data.exp_date_host+'</td>'+
+                                    '<td>$'+data.host_price+'</td>'+'</tr>'+
+                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.host_price))+'</th></tr>';
+                                }
+                                if(data.serv_main_id != 0){
+                                    htmlTable1 +='<tr class="">'+
+                                    '<td>1</td>'+
+                                    '<td>'+data.main_name+'</td>'+
+                                    '<td>'+data.main_duration+'</td>'+
+                                    '<td>'+data.start_date_main+'</td>'+
+                                    '<td>'+data.exp_date_main+'</td>'+
+                                    '<td>$'+data.main_price+'</td>'+'</tr>'+
+                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data.main_price))+'</th></tr>';
+                                }
+
+                            }
+                        $('#customerListExpDetail').html(htmlTable1);
+                        },
+                        error: function()
+                        {
+                            alert('Could not Edit Data');
+                        }
                 });
-            }else{
-                
-            }
-        });
+            });
         });
     </script>
 </head>
@@ -176,19 +261,19 @@
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
                     <div class="header-left">
-                            <div class="dropdown for-notification">
-                                <button class="btn btn-secondary dropdown-toggle" type="button">
-                                    <i class="fa fa-bell"></i>
-                                    <span class="count bg-danger">5</span>
-                                </button>
-                            </div>
+                        <div class="dropdown for-notification">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="alertExp">
+                                <i class="fa fa-bell"></i>
+                                <span class="count bg-danger" id="amountExPay">0</span>
+                            </button>
                         </div>
+                    </div>
                 </div>
 
                 <div class="col-sm-5">
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span>Chea <i class="fa fa-chevron-down"></i></span>
+                            <span><?php echo $this->session->userdata['logged_in']['u_name']; ?>&nbsp;<i class="fa fa-chevron-down"></i></span>
                         </a>
 
                         <div class="user-menu dropdown-menu">
@@ -200,7 +285,8 @@
                     </div>
                 </div>
             </div>
-        </header><!-- /header -->
+        </header>
+        <!-- /header -->
         <!-- Header-->
         <div class="content mt-3">
                 <div class="row">
@@ -214,9 +300,8 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="myForm" action="" method="post" class="">
-                                    <input type="hidden" name="hostExpDate" value="">
-                                    <input type="hidden" name="mainExpDate" value="">
+                                <form id="myChangePassForm" action="" method="post" class="">
+                                    <input type="hidden" name="txtId" value="0">
                                     <div class="form-group row">
                                         <label for="currentPassword" class="col-sm-4 col-form-label">Current Password <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
@@ -246,4 +331,27 @@
                             </div>
                         </div>
                     </div>
-                </div>                    
+                </div>   
+                <div class="modal fade" id="alertExpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">List Customer Expire Detail</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="customerListDetail" class="table table-borderless " style="width:100%">
+                                    <thead id="customerListExpDetail" style="width:100%">
+                                    
+                                    </thead>
+                                </table>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>

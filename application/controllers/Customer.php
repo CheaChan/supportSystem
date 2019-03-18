@@ -100,15 +100,45 @@ class Customer extends CI_Controller {
         $result = $this->m->viewCustomer();
 		echo json_encode($result);
     }  
+    // view detail customer 
+    public function viewCustomerExpire(){
+        $result = $this->m->viewCustomerExpire();
+		echo json_encode($result);
+    }  
     // get expire date
     public function getExpireDate(){
+        $amountOfExp = 0;
+        //$expId = array();
+        $today = date("Y-m-d"); 
+        $start = strtotime($today);
         $result = $this->m->getExpireDate();
-		echo json_encode($result);
-    }
+        //$expDate = json_encode($result);
+        foreach ($result as $value){
+            $end1 = strtotime($value->exp_date_host);
+            $end2 = strtotime($value->exp_date_main);
+            if( ceil(abs($end1 - $start) / 86400) <= 7 || ceil(abs($end2 - $start) / 86400) <= 7){
+                $amountOfExp += 1;
+                $prod_id = $value->c_id;
+                if($this->session->userdata('cart') == "" ) 
+                {
+                        $cart = array();
+                } 
+                else 
+                {
+                    $cart = $this->session->userdata('cart');
+                }
+                if (!in_array($prod_id, $cart)) 
+                {
+                    array_push($cart, $prod_id);
+                    $this->session->set_userdata('cart', $cart);
+
+                }
+            } 
+        }
+        echo $amountOfExp;
+   }
     public function loadDashboard(){
-        $this->load->view('dashboard/header');
-        $this->load->view('dashboard/dashboard');
-        $this->load->view('dashboard/footer');
+        var_dump($cart = $this->session->userdata('cart'));
        
     }
 }
