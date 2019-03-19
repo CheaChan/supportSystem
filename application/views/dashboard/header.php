@@ -144,32 +144,32 @@
                             for(i=0; i<data.length; i++)
                             {
                                 
-                                htmlTable1 +="<div><div class='row'>"+
+                                htmlTable1 +="<div class='bg-info'><div class='row' style='padding-left:5px;'>"+
                                 "<div class='col-md-4'>"+
-                                    "<p>"+"Customer Code : "+"<b>C"+data[i].c_id.padStart(5, '0')+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Customer Code : "+"<b>C"+data[i].c_id.padStart(5, '0')+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-4'>"+
-                                    "<p>"+"Customer Name : "+"<b>"+data[i].c_name+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Customer Name : "+"<b>"+data[i].c_name+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-4'>"+
-                                    "<p>"+"Phone Number : "+"<b>"+data[i].c_phone+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Phone Number : "+"<b>"+data[i].c_phone+"</b>"+"</p>"+
                                 "</div>"+
                                 '</div>'+
-                                "<div class='row'>"+
+                                "<div class='row' style='padding-left:5px;'>"+
                                 "<div class='col-md-3'>"+
-                                    "<p>"+"Org : "+"<b>"+data[i].c_org+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Org : "+"<b>"+data[i].c_org+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-3'>"+
-                                    "<p>"+"IP : "+"<b>"+data[i].public_ip+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"IP : "+"<b>"+data[i].public_ip+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-3'>"+
-                                    "<p>"+"System Type: "+"<b>"+data[i].sys_type+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"System Type: "+"<b>"+data[i].sys_type+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-3'>"+
-                                    "<p>"+"Branch Amount: "+"<b>"+data[i].num_branch+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Branch Amount: "+"<b>"+data[i].num_branch+"</b>"+"</p>"+
                                 "</div>"+
                                 "</div></div>"
-                                htmlTable1 +='<table class="table table-bordered" style="width:100%"><thead><tr class="">'+
+                                htmlTable1 +='<table class="table table-bordered" style="width:100%"><thead><tr class="table-primary">'+
                                         '<th>No</th>'+
                                         '<th>Service Name</th>'+
                                         '<th>Duration</th>'+
@@ -236,8 +236,8 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="#"><h3>Flexible Solution</h3></a>
-                <a class="navbar-brand hidden" href="#">F</a>
+                <a class="navbar-brand" href="#"><img src="<?php echo base_url(); ?>assets/images/logo-70.png" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="#">FS</a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">

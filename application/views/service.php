@@ -9,7 +9,7 @@
                             <div class="float-left">
                                 <div class="page-title">
                                     <ol class="breadcrumb text-right">
-                                        <li><a href="#"><strong>Dashboard / </strong></a></li>
+                                        <li><a href="<?php echo base_url('customer'); ?>"><strong>Dashboard / </strong></a></li>
                                         <li><a href="#"><b>&nbsp;Service Type</b></a></li>
                                         
                                     </ol>

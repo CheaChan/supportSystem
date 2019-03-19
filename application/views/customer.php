@@ -11,7 +11,7 @@
                             <div class="float-left">
                                 <div class="page-title">
                                     <ol class="breadcrumb text-right">
-                                        <li><a href="#"><strong>Dashboard / </strong></a></li>
+                                        <li><a href="<?php echo base_url('customer'); ?>"><strong>Dashboard / </strong></a></li>
                                         <li><a href="#"><b>&nbsp;Customer</b></a></li>
                                         
                                     </ol>
@@ -163,7 +163,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="" id="viewCustomerDetailContaint"></div>
+                                <div class="bg-info" id="viewCustomerDetailContaint"></div>
                                 <table id="customerListDetail" class="table table-bordered" style="width:100%">
                                     <thead id="customerListDetailTable1" style="width:100%">
                                     
@@ -438,7 +438,9 @@
                     $('input[name=customerOrg]').val(data.c_org);
                     $('input[name=publicIP]').val(data.public_ip);
                     $('input[name=hostStartDate]').val(data.start_date_host);
+                    $('input[name=hostExpDate]').val(data.exp_date_host);
                     $('input[name=mainStartDate]').val(data.start_date_main);
+                    $('input[name=mainExpDate]').val(data.exp_date_main);
                     $('input[name=orgBranch]').val(data.num_branch);
                     $('input[name=txtId]').val(data.c_id);
                     getSystemType(data.sys_type_id);
@@ -550,33 +552,33 @@
                 success: function(data){
                     var textContaint = " ";
                     var htmlTable1 = '';
-                    textContaint +="<div class='row'>"+
+                    textContaint +="<div class='row' style='padding-left:5px;'>"+
                                 "<div class='col-md-4'>"+
-                                    "<p>"+"Customer Code : "+"<b>C"+data.c_id.padStart(5, '0')+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Customer Code : "+"<b>C"+data.c_id.padStart(5, '0')+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-4'>"+
-                                    "<p>"+"Customer Name : "+"<b>"+data.c_name+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Customer Name : "+"<b>"+data.c_name+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-4'>"+
-                                    "<p>"+"Phone Number : "+"<b>"+data.c_phone+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Phone Number : "+"<b>"+data.c_phone+"</b>"+"</p>"+
                                 "</div>"+
                                 '</div>'+
-                                "<div class='row'>"+
+                                "<div class='row' style='padding-left:5px;'>"+
                                 "<div class='col-md-3'>"+
-                                    "<p>"+"Org : "+"<b>"+data.c_org+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Org : "+"<b>"+data.c_org+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-3'>"+
-                                    "<p>"+"IP : "+"<b>"+data.public_ip+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"IP : "+"<b>"+data.public_ip+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-3'>"+
-                                    "<p>"+"System Type : "+"<b>"+data.sys_type+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"System Type : "+"<b>"+data.sys_type+"</b>"+"</p>"+
                                 "</div>"+
                                 "<div class='col-md-3'>"+
-                                    "<p>"+"Branch Amount: "+"<b>"+data.num_branch+"</b>"+"</p>"+
+                                    "<p class='text-body'>"+"Branch Amount: "+"<b>"+data.num_branch+"</b>"+"</p>"+
                                 "</div>"+
                                 '</div>';
 
-                    htmlTable1 +='<tr class="">'+
+                    htmlTable1 +='<tr class="table-primary">'+
                                 '<th>No</th>'+
                                 '<th>Service Name</th>'+
                                 '<th>Duration</th>'+

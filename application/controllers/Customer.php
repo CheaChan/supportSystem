@@ -107,9 +107,11 @@ class Customer extends CI_Controller {
     }  
     // get expire date
     public function getExpireDate(){
+        $this->session->unset_userdata('cusId');
         $amountOfExp = 0;
         //$expId = array();
         $today = date("Y-m-d"); 
+        $c_id = null;
         $start = strtotime($today);
         $result = $this->m->getExpireDate();
         //$expDate = json_encode($result);
@@ -118,27 +120,39 @@ class Customer extends CI_Controller {
             $end2 = strtotime($value->exp_date_main);
             if( ceil(abs($end1 - $start) / 86400) <= 7 || ceil(abs($end2 - $start) / 86400) <= 7){
                 $amountOfExp += 1;
-                $prod_id = $value->c_id;
-                if($this->session->userdata('cart') == "" ) 
-                {
-                        $cart = array();
-                } 
-                else 
-                {
-                    $cart = $this->session->userdata('cart');
-                }
-                if (!in_array($prod_id, $cart)) 
-                {
-                    array_push($cart, $prod_id);
-                    $this->session->set_userdata('cart', $cart);
+                $c_id = $value->c_id;
+                if($c_id != " " || $c_id != null ){
+                    if($this->session->userdata('cusId') == "" ) 
+                    {
+                        $cusId = array();
+                    } 
+                    else 
+                    {
+                        $cusId = $this->session->userdata('cusId');
+                    }
+                    if (!in_array($c_id, $cusId)) 
+                    {
+                        array_push($cusId, $c_id);
+                        $this->session->set_userdata('cusId', $cusId);
 
+                    }
+                }else{
+                   // echo "Hello,";
+                    //$this->session->unset_userdata('cusId');
                 }
-            } 
+            }
+        }
+        if($c_id == "" || $c_id == null ) 
+        {
+            $this->session->unset_userdata('cusId');
         }
         echo $amountOfExp;
+
    }
-    public function loadDashboard(){
-        var_dump($cart = $this->session->userdata('cart'));
-       
-    }
+   public function viewSession(){
+    
+    var_dump($cusId = $this->session->userdata('cusId'));
+    $this->session->unset_userdata('cusId');
+     var_dump($cusId = $this->session->userdata('cusId'));
+   }
 }

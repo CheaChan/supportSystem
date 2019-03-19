@@ -286,7 +286,7 @@ Class User_model extends CI_Model {
     }
     // view customer detail
     public function viewCustomerExpire(){
-        $ids = $this->session->userdata('cart');
+        $ids = $this->session->userdata('cusId');
         if($ids != ""){
             $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type,c.num_branch, c.serv_host_id, c.serv_main_id,
             svh.serv_type host_name, svh.serv_duration host_duration, svh.serv_price host_price, c.start_date_host, c.exp_date_host, 
