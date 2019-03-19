@@ -22,7 +22,7 @@
                     <table id="systemList" class="table table-striped table-bordered text-center" style="width:100%">
                         <thead>
                             <tr>
-                                <td>Code</td>
+                                <td>No</td>
                                 <td>Name</td>
                                 <td>Action</td>
                             </tr>

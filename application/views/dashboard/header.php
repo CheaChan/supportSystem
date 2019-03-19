@@ -138,30 +138,39 @@
                         async: false,
                         dataType: 'json',
                         success: function(data){
-                            console.log(data);
                             var i;
+                          
                             var htmlTable1 = '';
                             for(i=0; i<data.length; i++)
                             {
                                 
-                                htmlTable1 +='<tr>'+
-                                        '<td>'+'Code :'+'</td>'+
-                                        '<th>'+'C'+data[i].c_id.padStart(5, '0')+'</th>'+
-                                        '<td>'+'Customer Name:'+'</td>'+
-                                        '<th>'+data[i].c_name+'</th>'+
-                                        '<td>'+'Phone Numer :'+'</td>'+
-                                        '<th>'+data[i].c_phone+'</th>'+
-                                    '</tr>'+
-                                    '<tr>'+
-                                        '<td>'+'Organization :'+'</td>'+
-                                        '<th>'+data[i].c_org+'</th>'+
-                                        '<td>'+'Public IP :'+'</td>'+
-                                        '<th>'+data[i].public_ip+'</th>'+
-                                        '<td>'+'System Type:'+'</td>'+
-                                        '<th>'+data[i].sys_type+'</th>'+
-                                    '</tr>'+
-                                    '<tr class="">'+
-                                        '<th>Code</th>'+
+                                htmlTable1 +="<div><div class='row'>"+
+                                "<div class='col-md-4'>"+
+                                    "<p>"+"Customer Code : "+"<b>C"+data[i].c_id.padStart(5, '0')+"</b>"+"</p>"+
+                                "</div>"+
+                                "<div class='col-md-4'>"+
+                                    "<p>"+"Customer Name : "+"<b>"+data[i].c_name+"</b>"+"</p>"+
+                                "</div>"+
+                                "<div class='col-md-4'>"+
+                                    "<p>"+"Phone Number : "+"<b>"+data[i].c_phone+"</b>"+"</p>"+
+                                "</div>"+
+                                '</div>'+
+                                "<div class='row'>"+
+                                "<div class='col-md-3'>"+
+                                    "<p>"+"Org : "+"<b>"+data[i].c_org+"</b>"+"</p>"+
+                                "</div>"+
+                                "<div class='col-md-3'>"+
+                                    "<p>"+"IP : "+"<b>"+data[i].public_ip+"</b>"+"</p>"+
+                                "</div>"+
+                                "<div class='col-md-3'>"+
+                                    "<p>"+"System Type: "+"<b>"+data[i].sys_type+"</b>"+"</p>"+
+                                "</div>"+
+                                "<div class='col-md-3'>"+
+                                    "<p>"+"Branch Amount: "+"<b>"+data[i].num_branch+"</b>"+"</p>"+
+                                "</div>"+
+                                "</div></div>"
+                                htmlTable1 +='<table class="table table-bordered" style="width:100%"><thead><tr class="">'+
+                                        '<th>No</th>'+
                                         '<th>Service Name</th>'+
                                         '<th>Duration</th>'+
                                         '<th>Start Date</th>'+
@@ -169,40 +178,40 @@
                                         '<th>Price</th>'+'</tr>';
                                 if(data[i].serv_host_id != 0 && data[i].serv_main_id != 0){
                                     htmlTable1 +='<tr class="">'+
-                                        '<td>'+'S'+data[i].serv_host_id.padStart(5, '0')+'</td>'+
+                                        '<td>1</td>'+
                                         '<td>'+data[i].host_name+'</td>'+
                                         '<td>'+data[i].host_duration+'</td>'+
                                         '<td>'+data[i].start_date_host+'</td>'+
                                         '<td>'+data[i].exp_date_host+'</td>'+
                                         '<td>$'+data[i].host_price+'</td>'+'</tr>'+
                                     '<tr class="">'+
-                                        '<td>'+'S'+data[i].serv_main_id.padStart(5, '0')+'</td>'+
+                                        '<td>2</td>'+
                                         '<td>'+data[i].main_name+'</td>'+
                                         '<td>'+data[i].main_duration+'</td>'+
                                         '<td>'+data[i].start_date_main+'</td>'+
                                         '<td>'+data[i].exp_date_main+'</td>'+
                                         '<td>$'+data[i].main_price+'</td>'+'</tr>'+
-                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data[i].host_price)+parseInt(data[i].main_price))+'</th></tr><br/>';
+                                    '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data[i].num_branch * (parseInt(data[i].host_price)+parseInt(data[i].main_price))+'</th></tr></thead></table><br/>';
                                 }else{
                                     if(data[i].serv_host_id != 0){
                                         htmlTable1 +='<tr class="">'+
-                                        '<td>'+'S'+data[i].serv_host_id.padStart(5, '0')+'</td>'+
+                                        '<td>1</td>'+
                                         '<td>'+data[i].host_name+'</td>'+
                                         '<td>'+data[i].host_duration+'</td>'+
                                         '<td>'+data[i].start_date_host+'</td>'+
                                         '<td>'+data[i].exp_date_host+'</td>'+
                                         '<td>$'+data[i].host_price+'</td>'+'</tr>'+
-                                        '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data[i].host_price))+'</th></tr></br>';
+                                        '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data[i].num_branch * (parseInt(data[i].host_price))+'</th></tr></thead></table></br>';
                                     }
                                     if(data[i].serv_main_id != 0){
                                         htmlTable1 +='<tr class="">'+
-                                        '<td>'+'S'+data[i].serv_main_id.padStart(5, '0')+'</td>'+
+                                        '<td>1</td>'+
                                         '<td>'+data[i].main_name+'</td>'+
                                         '<td>'+data[i].main_duration+'</td>'+
                                         '<td>'+data[i].start_date_main+'</td>'+
                                         '<td>'+data[i].exp_date_main+'</td>'+
                                         '<td>$'+data[i].main_price+'</td>'+'</tr>'+
-                                        '<tr><th colspan="5" class="text-right">Total Price:&nbsp;$'+(parseInt(data[i].main_price))+'</th></tr><br/>';
+                                        '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data[i].num_branch * (parseInt(data[i].main_price))+'</th></tr></thead></table><br/>';
                                     }
                                 }
                             }
@@ -346,12 +355,9 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <table id="customerListDetail" class="table table-striped" style="width:100%">
-                                    <thead id="customerListExpDetail" style="width:100%">
-                                    
-                                    </thead>
-                                </table>
+                            <div class="modal-body" id="customerListExpDetail">
+                            
+                                
                                 
                             </div>
                             <div class="modal-footer">

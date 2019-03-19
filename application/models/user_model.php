@@ -36,7 +36,7 @@ Class User_model extends CI_Model {
         $this->db->select('c.*, st.sys_type');
         $this->db->from('customer c'); 
         $this->db->join('system_type st', 'c.sys_type_id = st.sys_id', 'left');
-        $this->db->order_by('c.c_id','DESC');         
+        $this->db->order_by('c.c_id','desc');                
         $query = $this->db->get(); 
         if($query->num_rows() != 0)
         {
@@ -268,7 +268,7 @@ Class User_model extends CI_Model {
     // view customer detail
     public function viewCustomer(){
         $id = $this->input->get('id');
-        $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type, c.serv_host_id, c.serv_main_id,
+        $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type, c.num_branch, c.serv_host_id, c.serv_main_id,
          svh.serv_type host_name, svh.serv_duration host_duration, svh.serv_price host_price, c.start_date_host, c.exp_date_host, 
          svm.serv_type main_name, svm.serv_duration main_duration, svm.serv_price main_price, c.start_date_main, c.exp_date_main');
         $this->db->from('customer c'); 
@@ -288,7 +288,7 @@ Class User_model extends CI_Model {
     public function viewCustomerExpire(){
         $ids = $this->session->userdata('cart');
         if($ids != ""){
-            $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type, c.serv_host_id, c.serv_main_id,
+            $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type,c.num_branch, c.serv_host_id, c.serv_main_id,
             svh.serv_type host_name, svh.serv_duration host_duration, svh.serv_price host_price, c.start_date_host, c.exp_date_host, 
             svm.serv_type main_name, svm.serv_duration main_duration, svm.serv_price main_price, c.start_date_main, c.exp_date_main');
             $this->db->from('customer c'); 

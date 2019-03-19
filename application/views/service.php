@@ -22,7 +22,7 @@
                     <table id="serviceList" class="table table-striped table-bordered text-center" style="width:100%">
                         <thead>
                             <tr>
-                                <td>Code</td>
+                                <td>No</td>
                                 <td>Service Name</td>
                                 <td>Service Price</td>
                                 <td>Service Duration</td>
