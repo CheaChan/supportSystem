@@ -1,20 +1,36 @@
-              <div class="container">
+
+                        
+                <div class="container">
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <button id="btnAdd" class="btn btn-success">Add New</button><br><br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="float-left">
+                                <div class="page-title">
+                                    <ol class="breadcrumb text-right">
+                                        <li><a href="#"><strong>Dashboard / </strong></a></li>
+                                        <li><a href="#"><b>&nbsp;Customer</b></a></li>
+                                        
+                                    </ol>
+                                </div>
+                            </div>
+                            <button id="btnAdd" class="btn btn-success float-right">Add New</button><br><br>
+                        </div>
+                    </div>
+                    
                     <!-- <div class="alert alert-success" style="display: none;"></div> -->
                     <table id="customerList" class="table table-striped table-bordered text-center" style="width:100%">
                         <thead>
                             <tr>
                                 <td>Code</td>
-                                <td>Name</td>
-                                <td>Phone</td>
+                                <td>Customer Name</td>
+                                <td>Phone Number</td>
                                 <td>Organization</td>
-                                <td>Service Hosting</td>
-                                <td>Service Main</td>
+                                <td>Hosting</td>
+                                <td>Maintenance</td>
                                 <td>System Type</td>
                                 <td>Action</td>
                             </tr>
@@ -104,7 +120,7 @@
                                     <div class="form-group row">
                                         <label for="orgBranch" class="col-sm-4 col-form-label">Number Branch <span class="text-danger">*</span></label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" name="orgBranch" id="orgBranch" placeholder="Number of Branch" required=""/>
+                                            <input type="number" class="form-control" name="orgBranch" id="orgBranch" placeholder="Number of Branch" required=""/>
                                             <span class="text-danger"><small id="msgCusBranch"></small></span>
                                         </div>
                                     </div>
@@ -112,8 +128,8 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary btn-ok" id="btnSave">Save</a>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="btnSave">Save</button>
                             </div>
                         </div>
                     </div>
@@ -132,8 +148,7 @@
                                 Do you want to delete this customer?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger" id="btnDelete">Delete</a>
+                                <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -227,7 +242,7 @@
             {
                 var htmlSysType ='';
                 if(sysId == null || sysId == 0){
-                    htmlSysType += "<option value='' selected>Chose...</option>";
+                    htmlSysType += "<option value='' selected>Choose...</option>";
                 }
                 for(i=0; i<data.length; i++){
                     if(sysId == data[i].sys_id){
@@ -256,7 +271,7 @@
             {
                 var htmlServiceHost = '';
                 if(hostId == null || hostId == 0){
-                    htmlServiceHost += "<option value='' selected>Chose...</option>";
+                    htmlServiceHost += "<option value='' selected>Choose...</option>";
                 }
                 for(i=0; i<data.length; i++){
                     if(hostId == data[i].serv_id){
@@ -285,7 +300,7 @@
             {
                 var htmlServiceMain ='';
                 if(mainId == null || mainId == 0){
-                    htmlServiceMain += "<option value=''selected>Chose...</option>";
+                    htmlServiceMain += "<option value=''selected>Choose...</option>";
                 }
                 for(i=0; i<data.length; i++){
                     if(mainId == data[i].serv_id){

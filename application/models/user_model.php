@@ -36,7 +36,7 @@ Class User_model extends CI_Model {
         $this->db->select('c.*, st.sys_type');
         $this->db->from('customer c'); 
         $this->db->join('system_type st', 'c.sys_type_id = st.sys_id', 'left');
-        $this->db->order_by('c.c_id','asc');         
+        $this->db->order_by('c.c_id','DESC');         
         $query = $this->db->get(); 
         if($query->num_rows() != 0)
         {
@@ -232,9 +232,17 @@ Class User_model extends CI_Model {
             $c_id = $id;
             $serv_host_id = $fields['serv_host_id'];
             $serv_main_id = $fields['serv_main_id'];
+            $start_date_host = $fields['start_date_host'];
+            $start_date_main = $fields['start_date_main'];
+
             $this->deleteServDetail($c_id);
-            $this->setHostDetail($c_id, $serv_host_id);
-            $this->setMainDetail($c_id, $serv_main_id);
+            if(($serv_host_id !='' || $serv_host_id != null) && ($start_date_host!='' || $start_date_host!=null || $start_date_host!='0000-00-00')){
+                $this->setHostDetail($c_id, $serv_host_id);
+            }
+            if(($serv_main_id !='' || $serv_main_id != null) && ($start_date_main!='' || $start_date_main!=null || $start_date_main!='0000-00-00')){
+                $this->setHostDetail($c_id, $serv_main_id);
+            }
+            
             return true;
         }else{
             return false;
@@ -279,21 +287,26 @@ Class User_model extends CI_Model {
     // view customer detail
     public function viewCustomerExpire(){
         $ids = $this->session->userdata('cart');
-        $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type, c.serv_host_id, c.serv_main_id,
-         svh.serv_type host_name, svh.serv_duration host_duration, svh.serv_price host_price, c.start_date_host, c.exp_date_host, 
-         svm.serv_type main_name, svm.serv_duration main_duration, svm.serv_price main_price, c.start_date_main, c.exp_date_main');
-        $this->db->from('customer c'); 
-        $this->db->join('system_type st', 'st.sys_id = c.sys_type_id', 'left');
-        $this->db->join('service_type svh', 'svh.serv_id = c.serv_host_id ', 'left');
-        $this->db->join('service_type svm', 'svm.serv_id = c.serv_main_id ', 'left');
-        $this->db->where_in('c.c_id', $ids);
-        $query = $this->db->get();
-        if($query->num_rows() > 0)
-        {
-            return $query->result();
+        if($ids != ""){
+            $this->db->select('c.c_id, c.c_name, c.c_phone, c.c_org, c.public_ip, st.sys_type, c.serv_host_id, c.serv_main_id,
+            svh.serv_type host_name, svh.serv_duration host_duration, svh.serv_price host_price, c.start_date_host, c.exp_date_host, 
+            svm.serv_type main_name, svm.serv_duration main_duration, svm.serv_price main_price, c.start_date_main, c.exp_date_main');
+            $this->db->from('customer c'); 
+            $this->db->join('system_type st', 'st.sys_id = c.sys_type_id', 'left');
+            $this->db->join('service_type svh', 'svh.serv_id = c.serv_host_id ', 'left');
+            $this->db->join('service_type svm', 'svm.serv_id = c.serv_main_id ', 'left');
+            $this->db->where_in('c.c_id', $ids);
+            $query = $this->db->get();
+            if($query->num_rows() > 0)
+            {
+                return $query->result();
+            }else{
+                return false;
+            }
         }else{
-            return false;
+            return "";
         }
+        
     }
     // get expire date
     public function getExpireDate(){

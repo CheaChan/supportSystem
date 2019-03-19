@@ -4,7 +4,20 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <button id="btnAddSystem" class="btn btn-success">Add New</button><br><br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="float-left">
+                                <div class="page-title">
+                                    <ol class="breadcrumb text-right">
+                                        <li><a href="#"><strong>Dashboard / </strong></a></li>
+                                        <li><a href="#"><b>&nbsp;System Type</b></a></li>
+                                        
+                                    </ol>
+                                </div>
+                            </div>
+                            <button id="btnAddSystem" class="btn btn-success pull-right">Add New</button><br><br>
+                        </div>
+                    </div>
                     <!-- <div class="alert alert-success" style="display: none;"></div> -->
                     <table id="systemList" class="table table-striped table-bordered text-center" style="width:100%">
                         <thead>
@@ -41,8 +54,8 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary btn-ok" id="btnSave">Save</a>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="btnSave">Save</button>
                             </div>
                         </div>
                     </div>
@@ -61,8 +74,7 @@
                                 Do you want to delete this System?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger" id="btnDelete">Delete</a>
+                                <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -82,6 +94,7 @@
             success: function(data)
             {
                 var html = '';
+                var id = 1;
                 var i;
                 var status = '';
                 for(i=0; i<data.length; i++)
@@ -92,13 +105,14 @@
                         status = 'None-active';
                     }
                     html +='<tr>'+
-                                '<td>'+'S'+data[i].sys_id.padStart(5, '0')+'</td>'+
+                                '<td>'+id+'</td>'+
                                 '<td>'+data[i].sys_type+'</td>'+
                                 '<td>'+
                                     '<a title="Edit System" href="javascript:;" class="item-edit" data="'+data[i].sys_id+'"><i class="fa fa-pencil-square fa-fw text-warning"></i></a>&nbsp;'+
                                     '<a title="Delete System" href="javascript:;" class="item-delete" data="'+data[i].sys_id+'"><i class="fa fa-trash fa-fw text-danger"></i></a>&nbsp;'+
                                 '</td>'+
                             '</tr>';
+                    id++;
                 }
                 $('#systemListData').html(html);
                 $('#systemList').DataTable();

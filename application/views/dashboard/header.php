@@ -227,7 +227,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="#"><h3>FlexiSolution</h3></a>
+                <a class="navbar-brand" href="#"><h3>Flexible Solution</h3></a>
                 <a class="navbar-brand hidden" href="#">F</a>
             </div>
 
@@ -264,18 +264,19 @@
             <div class="header-menu">
                 <div class="col-sm-7">
                     <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    <div class="header-left">
+                    
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="user-area dropdown">
+                    <div class="header-left pull-left">
                         <div class="dropdown for-notification">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="alertExp">
                                 <i class="fa fa-bell"></i>
                                 <span class="count bg-danger" id="amountExPay">0</span>
                             </button>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-5">
-                    <div class="user-area dropdown float-right">
+                    </div>&nbsp;
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span><?php echo $this->session->userdata['logged_in']['u_name']; ?>&nbsp;<i class="fa fa-chevron-down"></i></span>
                         </a>
