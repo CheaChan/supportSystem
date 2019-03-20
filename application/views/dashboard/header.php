@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>FlexiSolution</title>
+    <title>Flexible Solution</title>
     <meta name="description" content="FlexiSolution">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/logo-50.png">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="<?php echo base_url("assets/vendor/bootstrap/css/bootstrap.min.css"); ?>" /> 
     <link href="<?php echo base_url() ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -46,7 +46,6 @@
             $('#changePass').click(function(){
                 $('#myChangePasswordModal').modal('show');
                 $('#myChangePassForm').attr('action', '<?php echo base_url() ?>user/changePassword');
-
             });
              // validation bntSave for add & update
             $('#btnSaveChange').click(function()
@@ -72,7 +71,6 @@
                             if(data.u_pass != currentPassword.val()){
                                 $("#msgCurrentPassword").text("Wrong Current Password");
                             }else{
-                                //$('input[name=txtId]').val(data.u_id);
                                 $("#msgCurrentPassword").text("");
                                 result +='a';
                             }
@@ -81,7 +79,6 @@
                             alert('Could not add data');
                         }
                     });
-                    
                 }
                 if(newPassword.val()==''){
                     $("#msgNewPassword").text("New Password cannot be null");
@@ -99,7 +96,6 @@
                         result +='c';
                     }
                 }
-
                 if(result=='abc'){
                     $.ajax({
                         type: 'ajax',
@@ -122,8 +118,7 @@
                             alert('Could not add data');
                         }
                     });
-                }else{
-                    
+                }else{  
                 }
             });
             // validation bntSave for add & update
@@ -139,82 +134,28 @@
                         dataType: 'json',
                         success: function(data){
                             var i;
-                          
                             var htmlTable1 = '';
+                            var totalHostPrice = 0;
+                            var totalMainPrice = 0;
                             for(i=0; i<data.length; i++)
                             {
-                                
-                                htmlTable1 +="<div class='bg-info'><div class='row' style='padding-left:5px;'>"+
-                                "<div class='col-md-4'>"+
-                                    "<p class='text-body'>"+"Customer Code : "+"<b>C"+data[i].c_id.padStart(5, '0')+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-4'>"+
-                                    "<p class='text-body'>"+"Customer Name : "+"<b>"+data[i].c_name+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-4'>"+
-                                    "<p class='text-body'>"+"Phone Number : "+"<b>"+data[i].c_phone+"</b>"+"</p>"+
-                                "</div>"+
-                                '</div>'+
-                                "<div class='row' style='padding-left:5px;'>"+
-                                "<div class='col-md-3'>"+
-                                    "<p class='text-body'>"+"Org : "+"<b>"+data[i].c_org+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-3'>"+
-                                    "<p class='text-body'>"+"IP : "+"<b>"+data[i].public_ip+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-3'>"+
-                                    "<p class='text-body'>"+"System Type: "+"<b>"+data[i].sys_type+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-3'>"+
-                                    "<p class='text-body'>"+"Branch Amount: "+"<b>"+data[i].num_branch+"</b>"+"</p>"+
-                                "</div>"+
-                                "</div></div>"
-                                htmlTable1 +='<table class="table table-bordered" style="width:100%"><thead><tr class="table-primary">'+
-                                        '<th>No</th>'+
-                                        '<th>Service Name</th>'+
-                                        '<th>Duration</th>'+
-                                        '<th>Start Date</th>'+
-                                        '<th>Expire Date</th>'+
-                                        '<th>Price</th>'+'</tr>';
-                                if(data[i].serv_host_id != 0 && data[i].serv_main_id != 0){
-                                    htmlTable1 +='<tr class="">'+
-                                        '<td>1</td>'+
-                                        '<td>'+data[i].host_name+'</td>'+
-                                        '<td>'+data[i].host_duration+'</td>'+
-                                        '<td>'+data[i].start_date_host+'</td>'+
-                                        '<td>'+data[i].exp_date_host+'</td>'+
-                                        '<td>$'+data[i].host_price+'</td>'+'</tr>'+
-                                    '<tr class="">'+
-                                        '<td>2</td>'+
-                                        '<td>'+data[i].main_name+'</td>'+
-                                        '<td>'+data[i].main_duration+'</td>'+
-                                        '<td>'+data[i].start_date_main+'</td>'+
-                                        '<td>'+data[i].exp_date_main+'</td>'+
-                                        '<td>$'+data[i].main_price+'</td>'+'</tr>'+
-                                    '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data[i].num_branch * (parseInt(data[i].host_price)+parseInt(data[i].main_price))+'</th></tr></thead></table><br/>';
-                                }else{
-                                    if(data[i].serv_host_id != 0){
-                                        htmlTable1 +='<tr class="">'+
-                                        '<td>1</td>'+
-                                        '<td>'+data[i].host_name+'</td>'+
-                                        '<td>'+data[i].host_duration+'</td>'+
-                                        '<td>'+data[i].start_date_host+'</td>'+
-                                        '<td>'+data[i].exp_date_host+'</td>'+
-                                        '<td>$'+data[i].host_price+'</td>'+'</tr>'+
-                                        '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data[i].num_branch * (parseInt(data[i].host_price))+'</th></tr></thead></table></br>';
-                                    }
-                                    if(data[i].serv_main_id != 0){
-                                        htmlTable1 +='<tr class="">'+
-                                        '<td>1</td>'+
-                                        '<td>'+data[i].main_name+'</td>'+
-                                        '<td>'+data[i].main_duration+'</td>'+
-                                        '<td>'+data[i].start_date_main+'</td>'+
-                                        '<td>'+data[i].exp_date_main+'</td>'+
-                                        '<td>$'+data[i].main_price+'</td>'+'</tr>'+
-                                        '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data[i].num_branch * (parseInt(data[i].main_price))+'</th></tr></thead></table><br/>';
-                                    }
-                                }
+                                htmlTable1 +='<tr class="">'+
+                                '<td>'+'<a title="Renew" href="javascript:;" class="item-renew" data="'+data[i].c_id+'"><button class="btn btn-primary btn-sm"><i class="fa fa-repeat" aria-hidden="true"></i></button></a>'+'</td>'+
+                                        '<td>'+"C"+data[i].c_id.padStart(5, '0')+'</td>'+
+                                        '<td>'+data[i].c_name+'</td>'+
+                                        '<td>'+data[i].c_phone+'</td>'+
+                                        '<td>'+data[i].c_org+'</td>'+
+                                        '<td>'+data[i].sys_type+'</td>'+
+                                        '<td>$'+data[i].num_branch * (parseInt(data[i].host_price))+'</td>'+
+                                        '<td>$'+data[i].num_branch * (parseInt(data[i].main_price))+'</td>'+
+                                        '</tr>';
+                                        totalHostPrice += data[i].num_branch * (parseInt(data[i].host_price));
+                                        totalMainPrice += data[i].num_branch * (parseInt(data[i].main_price));
                             }
+                            htmlTable1 +='<tr><th colspan="6" class="text-right">Total Price:&nbsp;</th>'+
+                            '<th>$'+totalHostPrice+'</th>'+
+                            '<th>$'+totalMainPrice+'</th>'+
+                            '</tr>';
                         $('#customerListExpDetail').html(htmlTable1);
                         },
                         error: function()
@@ -229,7 +170,6 @@
 
 <body>
     <!-- Left Panel -->
-
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div class="navbar-header">
@@ -272,10 +212,8 @@
         <header id="header" class="header">
             <div class="header-menu">
                 <div class="col-sm-7">
-                    <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>
-                    
+                    <a id="menuToggle" class="menutoggle pull-left"><i class="fa fa fa-tasks"></i></a>        
                 </div>
-
                 <div class="col-sm-5">
                     <div class="user-area dropdown">
                     <div class="header-left pull-left">
@@ -289,11 +227,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span><?php echo $this->session->userdata['logged_in']['u_name']; ?>&nbsp;<i class="fa fa-chevron-down"></i></span>
                         </a>
-
                         <div class="user-menu dropdown-menu">
-
                             <a class="nav-link" href="#" id="changePass"><i class="fa fa-cog"></i> Change Password</a>
-
                             <a class="nav-link" href="<?php echo base_url('user/logout'); ?>"><i class="fa fa-sign-out"></i> Logout</a>
                         </div>
                     </div>
@@ -355,10 +290,22 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body" id="customerListExpDetail">
+                            <div class="modal-body">
                             
-                                
-                                
+                                <table id="customerListExpDetailTable" class="table table-bordered" style="width:100%">
+                                    <thead style="width:100%">
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Org</th>
+                                        <th>System</th>
+                                        <th>Hosting</th>
+                                        <th>Maintenance</th>
+                                    </thead>
+                                    <tbody id="customerListExpDetail">
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

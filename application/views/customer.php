@@ -32,7 +32,7 @@
                                 <td>Hosting</td>
                                 <td>Maintenance</td>
                                 <td>System Type</td>
-                                <td>Action</td>
+                                <td>&nbsp;Action&nbsp;</td>
                             </tr>
                         </thead>
                         <tbody id="customerListData">
@@ -101,7 +101,7 @@
                                     <div class="form-group row">
                                         <label for="hostStartDate" class="col-sm-4 col-form-label">Host Start Date</label>
                                         <div class="col-sm-8">
-                                            <input  type="text" data-date-format='yy-mm-dd' class="form-control" onchange="calExpDate(1)" name="hostStartDate" id="hostStartDate" placeholder="yyyy-mm-dd">
+                                            <input  type="input" class="form-control" onchange="calExpDate(1)" name="hostStartDate" id="hostStartDate" placeholder="yyyy-mm-dd">
                                         </div>
                                     </div> 	
                                     <div class="form-group row">
@@ -114,7 +114,7 @@
                                     <div class="form-group row">
                                         <label for="mainStartDate" class="col-sm-4 col-form-label">Main Start Date</label>
                                         <div class="col-sm-8">
-                                            <input  type="text" class="form-control" onchange="calExpDate(2)" name="mainStartDate" id="mainStartDate" placeholder="yyyy-mm-dd">
+                                            <input  type="input" class="form-control" onchange="calExpDate(2)" name="mainStartDate" id="mainStartDate" placeholder="dd-mm-yyyy">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -163,7 +163,13 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="bg-info" id="viewCustomerDetailContaint"></div>
+                                <!-- <div class="" id="viewCustomerDetailContaint"></div> -->
+                                <table class="" style="width:100%">
+                                    <thead id="viewCustomerDetailContaint" style="width:100%">
+                                    
+                                    </thead>
+                                </table>
+                                <br/>
                                 <table id="customerListDetail" class="table table-bordered" style="width:100%">
                                     <thead id="customerListDetailTable1" style="width:100%">
                                     
@@ -552,33 +558,27 @@
                 success: function(data){
                     var textContaint = " ";
                     var htmlTable1 = '';
-                    textContaint +="<div class='row' style='padding-left:5px;'>"+
-                                "<div class='col-md-4'>"+
-                                    "<p class='text-body'>"+"Customer Code : "+"<b>C"+data.c_id.padStart(5, '0')+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-4'>"+
-                                    "<p class='text-body'>"+"Customer Name : "+"<b>"+data.c_name+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-4'>"+
-                                    "<p class='text-body'>"+"Phone Number : "+"<b>"+data.c_phone+"</b>"+"</p>"+
-                                "</div>"+
-                                '</div>'+
-                                "<div class='row' style='padding-left:5px;'>"+
-                                "<div class='col-md-3'>"+
-                                    "<p class='text-body'>"+"Org : "+"<b>"+data.c_org+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-3'>"+
-                                    "<p class='text-body'>"+"IP : "+"<b>"+data.public_ip+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-3'>"+
-                                    "<p class='text-body'>"+"System Type : "+"<b>"+data.sys_type+"</b>"+"</p>"+
-                                "</div>"+
-                                "<div class='col-md-3'>"+
-                                    "<p class='text-body'>"+"Branch Amount: "+"<b>"+data.num_branch+"</b>"+"</p>"+
-                                "</div>"+
-                                '</div>';
-
-                    htmlTable1 +='<tr class="table-primary">'+
+                    textContaint += '<tr class="">'+
+                                    '<td><b>Customer Code: <b></td>'+
+                                    '<td>'+"C"+data.c_id.padStart(5, '0')+'</td>'+
+                                    '<td><b>Customer Name: <b></td>'+
+                                    '<td>'+data.c_name+'</td>'+'</tr>'+
+                                '<tr class="">'+
+                                    '<td><b>Phone Number: <b></td>'+
+                                    '<td>'+data.c_phone+'</td>'+
+                                    '<td><b>Organization:<b></td>'+
+                                    '<td>'+data.c_org+'</td>'+'</tr>'+
+                                '<tr class="">'+
+                                    '<td><b>Public IP: <b></td>'+
+                                    '<td>'+data.public_ip+'</td>'+
+                                    '<td><b>System Type:<b> </td>'+
+                                    '<td>'+data.sys_type+'</td>'+'</tr>'+
+                                '<tr class="">'+
+                                    '<td></td>'+
+                                    '<td></td>'+
+                                    '<td><b>Branch Amount: <b></td>'+
+                                    '<td>'+data.num_branch+'</td>'+'</tr>';
+                    htmlTable1 +='<tr class="">'+
                                 '<th>No</th>'+
                                 '<th>Service Name</th>'+
                                 '<th>Duration</th>'+
