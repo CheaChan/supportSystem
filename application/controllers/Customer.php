@@ -134,7 +134,6 @@ class Customer extends CI_Controller {
                     {
                         array_push($cusId, $c_id);
                         $this->session->set_userdata('cusId', $cusId);
-
                     }
                 }else{
                    // echo "Hello,";

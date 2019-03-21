@@ -135,24 +135,44 @@
                         success: function(data){
                             var i;
                             var htmlTable1 = '';
+                            var currentDate = new Date().toISOString().slice(0,10); 
                             var totalHostPrice = 0;
                             var totalMainPrice = 0;
                             for(i=0; i<data.length; i++)
                             {
+                                var AmountDiffHostDay = Math.floor((Date.parse(data[i].exp_date_host) - Date.parse(currentDate) ) / 86400000);
+                                var AmountDiffMainDay = Math.floor((Date.parse(data[i].exp_date_main) - Date.parse(currentDate) ) / 86400000);
+                                var host_price;
+                                var main_price;
+                                if(data[i].host_price != null){
+                                    host_price = parseInt(data[i].host_price);
+                                }else{
+                                    host_price = 0;
+                                }
+                                if(AmountDiffHostDay > 7){
+                                    host_price = 0; 
+                                }
+                                if(data[i].main_price != null){
+                                    main_price = parseInt(data[i].main_price);
+                                }else{
+                                    main_price = 0;
+                                }
+                                if(AmountDiffMainDay > 7){
+                                    main_price = 0; 
+                                }
                                 htmlTable1 +='<tr class="">'+
-                                '<td>'+'<a title="Renew" href="javascript:;" class="item-renew" data="'+data[i].c_id+'"><button class="btn btn-primary btn-sm"><i class="fa fa-repeat" aria-hidden="true"></i></button></a>'+'</td>'+
                                         '<td>'+"C"+data[i].c_id.padStart(5, '0')+'</td>'+
                                         '<td>'+data[i].c_name+'</td>'+
                                         '<td>'+data[i].c_phone+'</td>'+
                                         '<td>'+data[i].c_org+'</td>'+
                                         '<td>'+data[i].sys_type+'</td>'+
-                                        '<td>$'+data[i].num_branch * (parseInt(data[i].host_price))+'</td>'+
-                                        '<td>$'+data[i].num_branch * (parseInt(data[i].main_price))+'</td>'+
+                                        '<td>$'+data[i].num_branch * host_price+'</td>'+
+                                        '<td>$'+data[i].num_branch * main_price+'</td>'+
                                         '</tr>';
-                                        totalHostPrice += data[i].num_branch * (parseInt(data[i].host_price));
-                                        totalMainPrice += data[i].num_branch * (parseInt(data[i].main_price));
+                                        totalHostPrice += data[i].num_branch * host_price;
+                                        totalMainPrice += data[i].num_branch * main_price;
                             }
-                            htmlTable1 +='<tr><th colspan="6" class="text-right">Total Price:&nbsp;</th>'+
+                            htmlTable1 +='<tr><th colspan="5" class="text-right">Total Price:&nbsp;</th>'+
                             '<th>$'+totalHostPrice+'</th>'+
                             '<th>$'+totalMainPrice+'</th>'+
                             '</tr>';
@@ -294,14 +314,13 @@
                             
                                 <table id="customerListExpDetailTable" class="table table-bordered" style="width:100%">
                                     <thead style="width:100%">
-                                        <th>#</th>
                                         <th>Code</th>
                                         <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Org</th>
+                                        <th>Phone Number</th>
+                                        <th>Organization</th>
                                         <th>System</th>
-                                        <th>Hosting</th>
-                                        <th>Maintenance</th>
+                                        <th>Host</th>
+                                        <th>Main</th>
                                     </thead>
                                     <tbody id="customerListExpDetail">
                                     </tbody>

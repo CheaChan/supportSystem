@@ -600,7 +600,8 @@
                                     '<td>'+data.start_date_main+'</td>'+
                                     '<td>'+data.exp_date_main+'</td>'+
                                     '<td>$'+data.main_price+'</td>'+'</tr>'+
-                                '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data.num_branch * (parseInt(data.host_price)+parseInt(data.main_price))+'</th></tr>';
+                                '<tr><th colspan="5" class="text-right">Total Price:&nbsp;</th>'+
+                                '<th>$'+data.num_branch * (parseInt(data.host_price)+parseInt(data.main_price))+'</th></tr>';
                             }else{
                                 if(data.serv_host_id != 0){
                                     htmlTable1 +='<tr class="">'+
@@ -610,7 +611,8 @@
                                     '<td>'+data.start_date_host+'</td>'+
                                     '<td>'+data.exp_date_host+'</td>'+
                                     '<td>$'+data.host_price+'</td>'+'</tr>'+
-                                    '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data.num_branch * (parseInt(data.host_price))+'</th></tr>';
+                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;</th>'+
+                                    '<th>$'+data.num_branch * (parseInt(data.host_price))+'</th></tr>';
                                 }
                                 if(data.serv_main_id != 0){
                                     htmlTable1 +='<tr class="">'+
@@ -620,7 +622,8 @@
                                     '<td>'+data.start_date_main+'</td>'+
                                     '<td>'+data.exp_date_main+'</td>'+
                                     '<td>$'+data.main_price+'</td>'+'</tr>'+
-                                    '<tr><th colspan="6" class="text-right">Total Price:&nbsp;$'+data.num_branch * (parseInt(data.main_price))+'</th></tr>';
+                                    '<tr><th colspan="5" class="text-right">Total Price:&nbsp;</th>'+
+                                    '<th>$'+data.num_branch * (parseInt(data.main_price))+'</th></tr>';
                                 }
 
                             }

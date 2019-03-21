@@ -260,6 +260,7 @@ Class User_model extends CI_Model {
         $this->db->delete('customer');
         if($this->db->affected_rows() > 0)
         {
+            $this->deleteServDetail($id);
             return true;
         }else{
             return false;
@@ -306,7 +307,6 @@ Class User_model extends CI_Model {
         }else{
             return "";
         }
-        
     }
     // get expire date
     public function getExpireDate(){
