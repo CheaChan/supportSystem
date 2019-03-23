@@ -1,11 +1,11 @@
-
-                        
                 <div class="container">
+                    <!-- div for alert message after customer action is complete successfully style="display: none;"-->
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <!-- div to show about the location that the user standing -->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="float-left">
@@ -20,26 +20,28 @@
                             <button id="btnAdd" class="btn btn-success float-right">Add New</button><br><br>
                         </div>
                     </div>
-                    
-                    <!-- <div class="alert alert-success" style="display: none;"></div> -->
-                    <table id="customerList" class="table table-striped table-bordered text-center" style="width:100%">
-                        <thead>
-                            <tr>
-                                <td>Code</td>
-                                <td>Customer Name</td>
-                                <td>Phone Number</td>
-                                <td>Organization</td>
-                                <td>Hosting</td>
-                                <td>Maintenance</td>
-                                <td>System Type</td>
-                                <td>&nbsp;Action&nbsp;</td>
-                            </tr>
-                        </thead>
-                        <tbody id="customerListData">
-                        
-                        </tbody>
-                    </table>
+                    <!-- div to list all the user all the customerr with data table      -->
+                    <div class="table-responsive">
+                        <table id="customerList" class="table table-bordered text-center" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <td>Code</td>
+                                    <td>Customer Name</td>
+                                    <td>Phone Number</td>
+                                    <td>Organization</td>
+                                    <td>Hosting</td>
+                                    <td>Maintenance</td>
+                                    <td>System Type</td>
+                                    <td>&nbsp;Action&nbsp;</td>
+                                </tr>
+                            </thead>
+                            <tbody id="customerListData">
+                            
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                <!-- modal pop-up to add & edit the customer -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -114,7 +116,7 @@
                                     <div class="form-group row">
                                         <label for="mainStartDate" class="col-sm-4 col-form-label">Main Start Date</label>
                                         <div class="col-sm-8">
-                                            <input  type="input" class="form-control" onchange="calExpDate(2)" name="mainStartDate" id="mainStartDate" placeholder="dd-mm-yyyy">
+                                            <input  type="input" class="form-control" onchange="calExpDate(2)" name="mainStartDate" id="mainStartDate" placeholder="yyyy-mm-dd">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -134,7 +136,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- modal pop-up to confirm delete the customer -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -153,6 +155,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- modal pop-up to view for each customer -->
                 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -163,19 +166,21 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <!-- <div class="" id="viewCustomerDetailContaint"></div> -->
-                                <table class="" style="width:100%">
-                                    <thead id="viewCustomerDetailContaint" style="width:100%">
-                                    
-                                    </thead>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="" style="width:100%">
+                                        <thead id="viewCustomerDetailContaint">
+                                        
+                                        </thead>
+                                    </table>
+                                </div>
                                 <br/>
-                                <table id="customerListDetail" class="table table-bordered" style="width:100%">
-                                    <thead id="customerListDetailTable1" style="width:100%">
-                                    
-                                    </thead>
-                                </table>
-                                
+                                <div class="table-responsive">
+                                    <table id="customerListDetail" class="table table-bordered" style="width:100%">
+                                        <thead id="customerListDetailTable1">
+                                        
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -367,7 +372,7 @@
         });
     }   
     $(function(){
-        customerList();
+        customerList(); // auto load the function customerList()
         //delete customer 
         $('#customerListData').on('click', '.item-delete', function()
         {
@@ -628,15 +633,13 @@
 
                             }
                     $('#viewCustomerDetailContaint').html(textContaint);
-                    $('#customerListDetailTable1').html(htmlTable1);
-                    
+                    $('#customerListDetailTable1').html(htmlTable1);  
                 },
                 error: function()
                 {
-                    alert('Could not Edit Data');
+                    alert('Could not get customer detail Data');
                 }
             });
         });
     });
-
 </script>

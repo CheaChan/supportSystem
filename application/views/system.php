@@ -1,9 +1,11 @@
                <div class="container">
+                    <!-- div for alert message after system action is complete successfully style="display: none;"-->
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <!-- div to show about the location that the user standing -->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="float-left">
@@ -18,20 +20,23 @@
                             <button id="btnAddSystem" class="btn btn-success pull-right">Add New</button><br><br>
                         </div>
                     </div>
-                    <!-- <div class="alert alert-success" style="display: none;"></div> -->
-                    <table id="systemList" class="table table-striped table-bordered text-center" style="width:100%">
-                        <thead>
-                            <tr>
-                                <td>No</td>
-                                <td>Name</td>
-                                <td>Action</td>
-                            </tr>
-                        </thead>
-                        <tbody id="systemListData">
-                        
-                        </tbody>
-                    </table>
+                    <!-- div to list all the user all the system with data table      -->
+                    <div class="table-responsive">
+                        <table id="systemList" class="table table-bordered text-center" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Name</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody id="systemListData">
+                            
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                <!-- modal pop-up to add & edit the system -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -60,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- modal pop-up to confirm delete the system -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -84,6 +89,7 @@
     </div><!-- /#right-panel -->
     <!-- Right Panel --> 
 <script>
+    // function to get all the system type
     function systemList(){
         $.ajax({
             type: 'ajax',
@@ -123,7 +129,7 @@
         });
     }
     $(function(){
-        systemList();
+        systemList(); // auto load the systemList()
         //delete system 
         $('#systemListData').on('click', '.item-delete', function()
         {

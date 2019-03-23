@@ -1,9 +1,11 @@
                 <div class="container">
+                    <!-- div for alert message after user action is complete successfully style="display: none;"-->
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <!-- div to show about the location that the user standing -->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="float-left">
@@ -17,22 +19,25 @@
                             </div>
                             <button id="btnAddUser" class="btn btn-success pull-right">Add New</button><br><br>
                         </div>
-                    </div>      
-                    <!-- <div class="alert alert-success" style="display: none;"></div> -->
-                    <table id="userList" class="table table-striped table-bordered text-center" style="width:100%">
-                        <thead>
-                            <tr>
-                                <td>No</td>
-                                <td>Name</td>
-                                <td>Status</td>
-                                <td>Action</td>
-                            </tr>
-                        </thead>
-                        <tbody id="userListData">
-                        
-                        </tbody>
-                    </table>
+                    </div> 
+                    <!-- div to list all the user all the user with data table      -->
+                    <div class="table-responsive">
+                        <table id="userList" class="table table-bordered text-center" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Name</td>
+                                    <td>Status</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody id="userListData">
+                            
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                <!-- modal pop-up to add the user -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -63,11 +68,12 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="btnSave" data-dismiss="modal">Save</button>
+                                <button type="button" class="btn btn-primary" id="btnSave">Save</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- modal pop-up to edit the user -->
                 <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -91,12 +97,12 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" id="btnUpdate" data-dismiss="modal">Save</button>
+                                <button type="button" class="btn btn-primary" id="btnUpdate">Save</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <!-- modal pop-up to confirm delete the user -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -120,6 +126,7 @@
     </div><!-- /#right-panel -->
     <!-- Right Panel --> 
 <script>
+    // function list all the user into the table
     function userList(){
         $.ajax({
             type: 'ajax',
@@ -160,7 +167,7 @@
         });
     }
     $(function(){
-        userList();
+        userList(); // auto load function userList()
         //delete user 
         $('#userListData').on('click', '.item-delete', function()
         {
@@ -311,5 +318,3 @@
     });
 
 </script>
-</body>
-</html>

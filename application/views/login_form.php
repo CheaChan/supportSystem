@@ -26,7 +26,7 @@
             ?>
 				<div class="card card-primary" style="box-shadow: 1px 1px 1px 2px;">
 					<div class="card-header text-center">
-						<h3>FlexiSolution</h3>
+                    <img src="<?php echo base_url(); ?>assets/images/logo-50.png" alt="Logo">
 					</div>
 					<div class="text-center">
 					</div> 

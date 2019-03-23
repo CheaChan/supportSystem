@@ -6,8 +6,7 @@
     <title>Flexible Solution</title>
     <meta name="description" content="FlexiSolution">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/logo-50.png">
+    <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/logo-144.gif">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="<?php echo base_url("assets/vendor/bootstrap/css/bootstrap.min.css"); ?>" /> 
     <link href="<?php echo base_url() ?>assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -22,170 +21,6 @@
     <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<?php echo base_url('assets/css/dashboard.css')?>">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-    <script>
-        function getExpireDate(){
-            var todayDate = new Date().toISOString().slice(0,10);
-            $.ajax({
-                type: 'ajax',
-                method: 'get',
-                url: '<?php echo base_url() ?>customer/getExpireDate',
-                async: false,
-                dataType: 'json',
-                success: function(data)
-                {
-                    $("#amountExPay").html(data);
-                },
-                error: function()
-                {
-                    alert('Could not get expire date from database');
-                }
-            });
-        }
-        $(function(){
-            getExpireDate();
-            $('#changePass').click(function(){
-                $('#myChangePasswordModal').modal('show');
-                $('#myChangePassForm').attr('action', '<?php echo base_url() ?>user/changePassword');
-            });
-             // validation bntSave for add & update
-            $('#btnSaveChange').click(function()
-            {
-                var url = $('#myChangePassForm').attr('action');
-                var data = $('#myChangePassForm').serialize();
-                // //validate form
-                var currentPassword = $('input[name=currentPassword]');
-                var newPassword = $('input[name=newPassword]');
-                var confirmNewPassword = $('input[name=confirmNewPassword]');
-                var result = '';
-                if(currentPassword.val()==''){
-                    $("#msgCurrentPassword").text("Current Password cannot be null");
-                }else{
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'get',
-                        url: '<?php echo base_url() ?>user/getCurrentPassword',
-                        async: false,
-                        dataType: 'json',
-                        success: function(data){
-                            console.log(data);
-                            if(data.u_pass != currentPassword.val()){
-                                $("#msgCurrentPassword").text("Wrong Current Password");
-                            }else{
-                                $("#msgCurrentPassword").text("");
-                                result +='a';
-                            }
-                        },
-                        error: function(){
-                            alert('Could not add data');
-                        }
-                    });
-                }
-                if(newPassword.val()==''){
-                    $("#msgNewPassword").text("New Password cannot be null");
-                }else{
-                    $("#msgNewPassword").text("");
-                    result +='b';
-                }
-                if(confirmNewPassword.val()==''){
-                    $("#msgConfirmNewPassword").text("Confirm Password cannot be null");
-                }else{
-                    if(newPassword.val() != confirmNewPassword.val()){
-                        $("#msgConfirmNewPassword").text("Confirm Password not match!");
-                    }else{ 
-                        $("#msgConfirmNewPassword").text("");
-                        result +='c';
-                    }
-                }
-                if(result=='abc'){
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'post',
-                        url: url,
-                        data: data,
-                        async: false,
-                        dataType: 'json',
-                        success: function(response){
-                            if(response.success){
-                                $('#myChangePasswordModal').modal('hide');
-                                $('#myChangePassForm')[0].reset();
-                                $('.alert-success').html('Change Password successfully').fadeIn().delay(4000).fadeOut('slow');
-                                customerList();
-                            }else{
-                                alert('Error');
-                            }
-                        },
-                        error: function(){
-                            alert('Could not add data');
-                        }
-                    });
-                }else{  
-                }
-            });
-            // validation bntSave for add & update
-            $('#alertExp').click(function()
-            {
-                $('#alertExpModal').modal('show');
-                    $.ajax({
-                        type: 'ajax',
-                        method: 'get',
-                        url: '<?php echo base_url() ?>customer/viewCustomerExpire',
-                        data: {},
-                        async: false,
-                        dataType: 'json',
-                        success: function(data){
-                            var i;
-                            var htmlTable1 = '';
-                            var currentDate = new Date().toISOString().slice(0,10); 
-                            var totalHostPrice = 0;
-                            var totalMainPrice = 0;
-                            for(i=0; i<data.length; i++)
-                            {
-                                var AmountDiffHostDay = Math.floor((Date.parse(data[i].exp_date_host) - Date.parse(currentDate) ) / 86400000);
-                                var AmountDiffMainDay = Math.floor((Date.parse(data[i].exp_date_main) - Date.parse(currentDate) ) / 86400000);
-                                var host_price;
-                                var main_price;
-                                if(data[i].host_price != null){
-                                    host_price = parseInt(data[i].host_price);
-                                }else{
-                                    host_price = 0;
-                                }
-                                if(AmountDiffHostDay > 7){
-                                    host_price = 0; 
-                                }
-                                if(data[i].main_price != null){
-                                    main_price = parseInt(data[i].main_price);
-                                }else{
-                                    main_price = 0;
-                                }
-                                if(AmountDiffMainDay > 7){
-                                    main_price = 0; 
-                                }
-                                htmlTable1 +='<tr class="">'+
-                                        '<td>'+"C"+data[i].c_id.padStart(5, '0')+'</td>'+
-                                        '<td>'+data[i].c_name+'</td>'+
-                                        '<td>'+data[i].c_phone+'</td>'+
-                                        '<td>'+data[i].c_org+'</td>'+
-                                        '<td>'+data[i].sys_type+'</td>'+
-                                        '<td>$'+data[i].num_branch * host_price+'</td>'+
-                                        '<td>$'+data[i].num_branch * main_price+'</td>'+
-                                        '</tr>';
-                                        totalHostPrice += data[i].num_branch * host_price;
-                                        totalMainPrice += data[i].num_branch * main_price;
-                            }
-                            htmlTable1 +='<tr><th colspan="5" class="text-right">Total Price:&nbsp;</th>'+
-                            '<th>$'+totalHostPrice+'</th>'+
-                            '<th>$'+totalMainPrice+'</th>'+
-                            '</tr>';
-                        $('#customerListExpDetail').html(htmlTable1);
-                        },
-                        error: function()
-                        {
-                            alert('Could not Edit Data');
-                        }
-                });
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -196,7 +31,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="#"><img src="<?php echo base_url(); ?>assets/images/logo-70.png" alt="Logo"></a>
+                <a class="navbar-brand" href="#"><img class="mx-auto d-block" src="<?php echo base_url(); ?>assets/images/logo-50.png" alt="Logo" style="height:37px;"></a>
                 <a class="navbar-brand hidden" href="#">FS</a>
             </div>
 
@@ -211,7 +46,6 @@
                      <li class="">
                         <a href="<?php echo base_url('user'); ?>"> <i class="menu-icon fa fa-user"></i>User List</a>
                     </li>
-
                     <li class="menu-item-has-children dropdown">
                     <a href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cog"></i>Setting</a>
                         <ul class="sub-menu  dropdown-menu">
@@ -258,7 +92,8 @@
         <!-- /header -->
         <!-- Header-->
         <div class="content mt-3">
-                <div class="row">
+            <div class="row">
+                <!-- modal pop-up change password for the current user login -->
                 <div class="modal fade" id="myChangePasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -296,11 +131,12 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary btn-ok" id="btnSaveChange">Save Change</a>
+                                <button type="button" class="btn btn-primary" id="btnSaveChange">Save Change</button>
                             </div>
                         </div>
                     </div>
                 </div>   
+                <!-- modal pup-up to load list of customer expire -->
                 <div class="modal fade" id="alertExpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -311,23 +147,75 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                            
-                                <table id="customerListExpDetailTable" class="table table-bordered" style="width:100%">
-                                    <thead style="width:100%">
-                                        <th>Code</th>
-                                        <th>Name</th>
-                                        <th>Phone Number</th>
-                                        <th>Organization</th>
-                                        <th>System</th>
-                                        <th>Host</th>
-                                        <th>Main</th>
-                                    </thead>
-                                    <tbody id="customerListExpDetail">
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="customerListExpDetailTable" class="table table-bordered" style="width:100%">
+                                        <thead style="width:100%">
+                                            <th>#</th>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>Phone Number</th>
+                                            <th>Organization</th>
+                                            <th>System</th>
+                                            <th>Host</th>
+                                            <th>Main</th>
+                                        </thead>
+                                        <tbody id="customerListExpDetail">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- modal pup-up for renew each customer that expire -->
+                <div class="modal fade" id="renewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Renew Customer Expire</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="renewForm" action="" method="post" class="">
+                                    <input type="hidden" name="cusId" value="0">
+                                    <input type="hidden" name="hostRenewExpDate" value="">
+                                    <input type="hidden" name="mainRenewExpDate" value="">
+                                    <div class="form-group row">
+                                        <label for="serviceHostRenew" class="col-sm-4 col-form-label">Service Host</label>
+                                        <div class="col-sm-8">
+                                        <select class="custom-select" name="serviceHostRenew" id="serviceHostRenew" onchange="calRenewExpire(1)">
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="hostRenewDate" class="col-sm-4 col-form-label date-picker">Host Start Date</label>
+                                        <div class="col-sm-8">
+                                            <input  type="input" class="form-control" onchange="calRenewExpire(1)" name="hostRenewDate" id="hostRenewDate" placeholder="yyyy-mm-dd">
+                                        </div>
+                                    </div> 	
+                                    <div class="form-group row">
+                                        <label for="serviceMainRenew" class="col-sm-4 col-form-label">Service Main</label>
+                                        <div class="col-sm-8">
+                                        <select class="custom-select" name="serviceMainRenew" id="serviceMainRenew" onchange="calRenewExpire(2)">
+                                        </select>
+                                        </div>
+                                    </div> 
+                                    <div class="form-group row">
+                                        <label for="mainRenewDate" class="col-sm-4 col-form-label">Main Start Date</label>
+                                        <div class="col-sm-8">
+                                            <input  type="input" data-date-format="dd-mm-yyyy" class="form-control" onchange="calRenewExpire(2)" name="mainRenewDate" id="mainRenewDate" placeholder="yyyy-mm-dd">
+                                        </div>
+                                    </div>	     
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="btnRenew">Renew</button>
                             </div>
                         </div>
                     </div>

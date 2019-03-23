@@ -100,9 +100,14 @@ class Customer extends CI_Controller {
         $result = $this->m->viewCustomer();
 		echo json_encode($result);
     }  
-    // view detail customer 
+    // view detail customer service expire
     public function viewCustomerExpire(){
         $result = $this->m->viewCustomerExpire();
+		echo json_encode($result);
+    } 
+    // get the service expire for each customer that has service expire
+    public function getServiceExpire(){
+        $result = $this->m->getServiceExpire();
 		echo json_encode($result);
     }  
     // get expire date
@@ -115,43 +120,49 @@ class Customer extends CI_Controller {
         $start = strtotime($today);
         $result = $this->m->getExpireDate();
         //$expDate = json_encode($result);
-        foreach ($result as $value){
-            $end1 = strtotime($value->exp_date_host);
-            $end2 = strtotime($value->exp_date_main);
-            if( ceil(abs($end1 - $start) / 86400) <= 7 || ceil(abs($end2 - $start) / 86400) <= 7){
-                $amountOfExp += 1;
-                $c_id = $value->c_id;
-                if($c_id != " " || $c_id != null ){
-                    if($this->session->userdata('cusId') == "" ) 
-                    {
-                        $cusId = array();
-                    } 
-                    else 
-                    {
-                        $cusId = $this->session->userdata('cusId');
+        if($result){
+            foreach ($result as $value){
+                $end1 = strtotime($value->exp_date_host);
+                $end2 = strtotime($value->exp_date_main);
+                if( (ceil(($end1 - $start) / 86400) <= 7 && $value->exp_date_host !='0000-00-00') || (ceil(($end2 - $start) / 86400) <= 7 && $value->exp_date_main != '0000-00-00')){
+                    $amountOfExp += 1;
+                    $c_id = $value->c_id;
+                    if($c_id != "" || $c_id != null ){
+                        if($this->session->userdata('cusId') == "" ) 
+                        {
+                            $cusId = array();
+                        } 
+                        else 
+                        {
+                            $cusId = $this->session->userdata('cusId');
+                        }
+                        if (!in_array($c_id, $cusId)) 
+                        {
+                            array_push($cusId, $c_id);
+                            $this->session->set_userdata('cusId', $cusId);
+                        }
+                    }else{
+                       // echo "Hello,";
+                        //$this->session->unset_userdata('cusId');
                     }
-                    if (!in_array($c_id, $cusId)) 
-                    {
-                        array_push($cusId, $c_id);
-                        $this->session->set_userdata('cusId', $cusId);
-                    }
-                }else{
-                   // echo "Hello,";
-                    //$this->session->unset_userdata('cusId');
                 }
             }
-        }
-        if($c_id == "" || $c_id == null ) 
-        {
-            $this->session->unset_userdata('cusId');
+            if($c_id == "" || $c_id == null ) 
+            {
+                $this->session->unset_userdata('cusId');
+            }
         }
         echo $amountOfExp;
+        
 
    }
-   public function viewSession(){
-    
-    var_dump($cusId = $this->session->userdata('cusId'));
-    $this->session->unset_userdata('cusId');
-     var_dump($cusId = $this->session->userdata('cusId'));
-   }
+    // renew service 
+    public function renewService(){
+        $result = $this->m->renewService();
+		$msg['success'] = false;
+		if($result){
+			$msg['success'] = true;
+		}
+		echo json_encode($msg);
+    }
 }

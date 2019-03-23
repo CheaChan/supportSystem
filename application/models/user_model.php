@@ -110,6 +110,18 @@ Class User_model extends CI_Model {
     }
     // add new customer
     public function addCusomter(){
+        $serv_host_id = $this->input->post('serviceHostSelect');
+        $serv_main_id = $this->input->post('serviceMainSelect');
+        if($serv_host_id != '' || $serv_host_id != null){
+            $start_date_host = $this->input->post('hostStartDate');
+        }else{
+            $start_date_host = "";
+        }
+        if($serv_main_id != '' || $serv_main_id != null){
+            $start_date_main = $this->input->post('mainStartDate');
+        }else{
+            $start_date_main = "";
+        }
         $fields = array(
             'c_name'=>$this->input->post('customerName'),
             'c_phone'=>$this->input->post('customerPhone'),
@@ -117,10 +129,10 @@ Class User_model extends CI_Model {
             'public_ip'=>$this->input->post('publicIP'),
             'sys_type_id'=>$this->input->post('systemTypeSelect'),
             'serv_host_id'=>$this->input->post('serviceHostSelect'),
-            'start_date_host'=>$this->input->post('hostStartDate'),
+            'start_date_host'=>$start_date_host,
             'exp_date_host'=>$this->input->post('hostExpDate'),
             'serv_main_id'=>$this->input->post('serviceMainSelect'),
-            'start_date_main'=>$this->input->post('mainStartDate'),
+            'start_date_main'=>$start_date_main,
             'exp_date_main'=>$this->input->post('mainExpDate'),
             'num_branch'=>$this->input->post('orgBranch')
             );
@@ -138,7 +150,7 @@ Class User_model extends CI_Model {
                 $this->setHostDetail($c_id, $serv_host_id);
             }
             if(($serv_main_id !='' || $serv_main_id != null) && ($start_date_main!='' || $start_date_main!=null)){
-                $this->setHostDetail($c_id, $serv_main_id);
+                $this->setMainDetail($c_id, $serv_main_id);
             }
             return true;
         }else{
@@ -240,7 +252,7 @@ Class User_model extends CI_Model {
                 $this->setHostDetail($c_id, $serv_host_id);
             }
             if(($serv_main_id !='' || $serv_main_id != null) && ($start_date_main!='' || $start_date_main!=null || $start_date_main!='0000-00-00')){
-                $this->setHostDetail($c_id, $serv_main_id);
+                $this->setMainDetail($c_id, $serv_main_id);
             }
             
             return true;
@@ -319,6 +331,54 @@ Class User_model extends CI_Model {
         }
         else
         {
+            return false;
+        }
+    }
+    // get service expire date
+    public function getServiceExpire(){
+        $c_id = $this->input->get('id');
+        $this->db->select('c_id, exp_date_host, exp_date_main');
+        $this->db->from('customer c'); 
+        $this->db->where('c.c_id', $c_id);       
+        $query = $this->db->get(); 
+        if($query->num_rows() != 0)
+        {
+            return $query->row();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    // update the customer
+    public function renewService(){
+        $id = $this->input->post('cusId');
+        $fields = array(
+            'serv_host_id'=>$this->input->post('serviceHostRenew'),
+            'start_date_host'=>$this->input->post('hostRenewDate'),
+            'exp_date_host'=>$this->input->post('hostRenewExpDate'),
+            'serv_main_id'=>$this->input->post('serviceMainRenew'),
+            'start_date_main'=>$this->input->post('mainRenewDate'),
+            'exp_date_main'=>$this->input->post('mainRenewExpDate'),
+            );
+        $this->db->where('c_id', $id);
+        $this->db->update('customer', $fields);
+        if($this->db->affected_rows() > 0)
+        {
+            $c_id = $id;
+            $serv_host_id = $fields['serv_host_id'];
+            $serv_main_id = $fields['serv_main_id'];
+            $start_date_host = $fields['start_date_host'];
+            $start_date_main = $fields['start_date_main'];
+            if(($serv_host_id !='' || $serv_host_id != null) && ($start_date_host!='' || $start_date_host!=null || $start_date_host!='0000-00-00')){
+                $this->setHostDetail($c_id, $serv_host_id);
+            }
+            if(($serv_main_id !='' || $serv_main_id != null) && ($start_date_main!='' || $start_date_main!=null || $start_date_main!='0000-00-00')){
+                $this->setMainDetail($c_id, $serv_main_id);
+            }
+            
+            return true;
+        }else{
             return false;
         }
     }
